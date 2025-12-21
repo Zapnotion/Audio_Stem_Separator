@@ -2152,8 +2152,26 @@ class ExtractionWorker(QThread):
             elif self.mode in ["vocals_only", "instrument_hq"]:
                 self.progress.emit("Starting UVR Separation...")
                 sep = UVRSeparator(self.output_dir, self.device)
-                sep.separate_single(self.input_file, self.separation_model, progress_callback=self.progress.emit)
-                sep.cleanup()
+                
+                # ← FIX: CAPTURE THE RETURN VALUES
+                vocals_path, instrumental_path = sep.separate_single(
+                    self.input_file, 
+                    self.separation_model, 
+                    progress_callback=self.progress.emit
+                )
+                
+                # ← FIX: COPY FILES TO OUTPUT DIR BEFORE CLEANUP
+                if vocals_path and os.path.exists(vocals_path):
+                    final_vocals = os.path.join(self.output_dir, "vocals.wav")
+                    shutil.copy2(vocals_path, final_vocals)
+                    self.progress.emit(f"✅ Saved: vocals.wav")
+                
+                if instrumental_path and os.path.exists(instrumental_path):
+                    final_inst = os.path.join(self.output_dir, "instrumental.wav")
+                    shutil.copy2(instrumental_path, final_inst)
+                    self.progress.emit(f"✅ Saved: instrumental.wav")
+                
+                sep.cleanup()  # Now safe to cleanup temp files
 
             self.finished.emit(self.output_dir)
 
