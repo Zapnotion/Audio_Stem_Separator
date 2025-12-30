@@ -39,6 +39,206 @@ INPAINTING_MODELS_DIR = os.path.join(SCRIPT_DIR, "models", "inpainting")
 
 
 
+
+
+
+
+DEMUCS_QUALITY_PRESETS = {
+    "preview": {
+        "name": "⚡ Preview",
+        "shifts": 1,
+        "overlap": 0.10,
+        "description": "Quick preview - fastest, lower quality",
+        "time_estimate": "~30 seconds per song"
+    },
+    "fast": {
+        "name": "🚀 Fast",
+        "shifts": 2,
+        "overlap": 0.25,
+        "description": "Good quality, fast processing",
+        "time_estimate": "~1-2 minutes per song"
+    },
+    "balanced": {
+        "name": "⚖️ Balanced",
+        "shifts": 3,
+        "overlap": 0.35,
+        "description": "Better quality, moderate speed",
+        "time_estimate": "~2-4 minutes per song"
+    },
+    "high_quality": {
+        "name": "✨ High Quality",
+        "shifts": 5,
+        "overlap": 0.50,
+        "description": "Excellent quality, slower",
+        "time_estimate": "~5-8 minutes per song"
+    },
+    "maximum": {
+        "name": "🏆 Maximum",
+        "shifts": 10,
+        "overlap": 0.75,
+        "description": "Absolute best quality, very slow",
+        "time_estimate": "~15-25 minutes per song"
+    },
+}
+
+
+FREQUENCY_PRESETS_GENRE = {
+    "pop_rock": {
+        "name": "🎸 Pop / Rock",
+        "low_freq": 250,
+        "high_freq": 6000,
+        "description": "Standard pop/rock mix - guitars, synths in mid, cymbals in high",
+        "details": "Low: Bass synths, low guitars | Mid: Main instruments | High: Presence, air"
+    },
+    "electronic_edm": {
+        "name": "🎹 Electronic / EDM",
+        "low_freq": 200,
+        "high_freq": 8000,
+        "description": "Electronic music - extended bass, bright highs",
+        "details": "Low: Sub bass, 808s | Mid: Synths, leads | High: Hi-hats, sparkle"
+    },
+    "hip_hop_trap": {
+        "name": "🎤 Hip-Hop / Trap",
+        "low_freq": 180,
+        "high_freq": 7000,
+        "description": "Hip-hop focused - deep bass, crisp highs",
+        "details": "Low: 808s, sub bass | Mid: Samples, keys | High: Hi-hats, ad-libs"
+    },
+    "classical_orchestral": {
+        "name": "🎻 Classical / Orchestral",
+        "low_freq": 300,
+        "high_freq": 5000,
+        "description": "Orchestral music - cello/bass separation, string detail",
+        "details": "Low: Double bass, cello | Mid: Violins, winds, brass | High: Overtones, room"
+    },
+    "jazz": {
+        "name": "🎷 Jazz",
+        "low_freq": 280,
+        "high_freq": 5500,
+        "description": "Jazz ensemble - upright bass, piano, horns",
+        "details": "Low: Upright bass | Mid: Piano, horns, guitar | High: Cymbal wash, breath"
+    },
+    "metal_heavy": {
+        "name": "🤘 Metal / Heavy Rock",
+        "low_freq": 220,
+        "high_freq": 6500,
+        "description": "Heavy music - tight low end, aggressive mids",
+        "details": "Low: Bass guitar, kick weight | Mid: Guitars, vocals | High: Cymbals, pick attack"
+    },
+    "acoustic_folk": {
+        "name": "🪕 Acoustic / Folk",
+        "low_freq": 300,
+        "high_freq": 5000,
+        "description": "Acoustic instruments - natural separation",
+        "details": "Low: Acoustic bass, low guitar | Mid: Guitar body, vocals | High: String detail, air"
+    },
+    "rnb_soul": {
+        "name": "🎙️ R&B / Soul",
+        "low_freq": 200,
+        "high_freq": 7000,
+        "description": "R&B/Soul - warm bass, silky highs",
+        "details": "Low: Bass, keys | Mid: Rhodes, guitars, vocals | High: Breathiness, sheen"
+    },
+}
+
+
+FREQUENCY_PRESETS_TECHNICAL = {
+    "bass_focus": {
+        "name": "🔊 Bass Focus (Sub-heavy)",
+        "low_freq": 150,
+        "high_freq": 6000,
+        "description": "Extended low end - captures more sub bass content",
+        "details": "Low: Everything below 150Hz (sub bass, kick fundamentals)"
+    },
+    "mid_focus": {
+        "name": "🎯 Mid Focus (Vocal range)",
+        "low_freq": 300,
+        "high_freq": 4000,
+        "description": "Focused mid range - isolates vocal/instrument fundamentals",
+        "details": "Mid: 300Hz-4kHz covers most melodic content"
+    },
+    "bright_focus": {
+        "name": "✨ Bright Focus (Presence)",
+        "low_freq": 250,
+        "high_freq": 4500,
+        "description": "More content in high band - detailed highs",
+        "details": "High: Extended range captures more presence and detail"
+    },
+    "wide_low": {
+        "name": "📊 Wide Low (200Hz)",
+        "low_freq": 200,
+        "high_freq": 6000,
+        "description": "Standard low split at 200Hz",
+        "details": "Common mixing crossover point"
+    },
+    "narrow_bands": {
+        "name": "📏 Narrow Bands",
+        "low_freq": 350,
+        "high_freq": 3500,
+        "description": "Narrow mid focus - more content in low/high",
+        "details": "Low: Extended | Mid: Focused | High: Extended"
+    },
+    "wide_bands": {
+        "name": "📐 Wide Mid Band",
+        "low_freq": 150,
+        "high_freq": 8000,
+        "description": "Very wide mid - minimal low/high content",
+        "details": "Most content stays in mid band"
+    },
+}
+
+
+FREQUENCY_PRESETS_INSTRUMENT = {
+    "piano_keys": {
+        "name": "🎹 Piano / Keys Focus",
+        "low_freq": 260,  # Below middle C
+        "high_freq": 5200,
+        "description": "Optimized for piano and keyboard instruments",
+        "details": "Low: Bass notes | Mid: Main playing range | High: Brilliance"
+    },
+    "guitar_focus": {
+        "name": "🎸 Guitar Focus",
+        "low_freq": 250,
+        "high_freq": 5000,
+        "description": "Optimized for acoustic and electric guitar",
+        "details": "Low: Low E string area | Mid: Body and tone | High: Pick attack, fret noise"
+    },
+    "strings_orchestral": {
+        "name": "🎻 Strings Focus",
+        "low_freq": 200,
+        "high_freq": 4500,
+        "description": "Optimized for violin, viola, cello",
+        "details": "Low: Cello, viola low | Mid: Main string tone | High: Bow detail, harmonics"
+    },
+    "synth_electronic": {
+        "name": "🎛️ Synth Focus",
+        "low_freq": 180,
+        "high_freq": 8000,
+        "description": "Optimized for synthesizers and electronic sounds",
+        "details": "Low: Sub bass, bass synths | Mid: Leads, pads | High: Shimmer, effects"
+    },
+    "brass_winds": {
+        "name": "🎺 Brass / Winds Focus",
+        "low_freq": 280,
+        "high_freq": 5000,
+        "description": "Optimized for brass and woodwind instruments",
+        "details": "Low: Tuba, trombone low | Mid: Main horn range | High: Breath, brightness"
+    },
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def check_available_models():
     """Check which models are available."""
     available = {
@@ -149,131 +349,6 @@ class DropZone(QFrame):
                 break
         self.dragLeaveEvent(None)
 
-
-
-
-class SpectralHoleDetector:
-    """
-    Detects frequency-domain damage in instrumental audio.
-    """
-    
-    def __init__(self, sample_rate=44100):
-        self.sample_rate = sample_rate
-        self.n_fft = 2048
-        self.hop_length = 512
-    
-    def compute_spectrogram(self, audio):
-        """Compute magnitude spectrogram."""
-        if len(audio.shape) > 1:
-            audio = np.mean(audio, axis=1)
-        
-        pad_length = self.n_fft - (len(audio) % self.hop_length)
-        audio_padded = np.pad(audio, (0, pad_length))
-        
-        num_frames = (len(audio_padded) - self.n_fft) // self.hop_length + 1
-        window = np.hanning(self.n_fft)
-        
-        spec = np.zeros((self.n_fft // 2 + 1, num_frames))
-        
-        for i in range(num_frames):
-            start = i * self.hop_length
-            frame = audio_padded[start:start + self.n_fft] * window
-            spec[:, i] = np.abs(np.fft.rfft(frame))
-        
-        return spec
-    
-    def detect_spectral_damage(self, instrumental, original, 
-                                threshold=0.5, min_damage_frames=10,
-                                max_duration_sec=30.0):
-        """Detect regions with spectral damage."""
-        logger.info("Computing spectrograms for damage detection...")
-        
-        if len(instrumental.shape) > 1:
-            inst_mono = np.mean(instrumental, axis=1) if instrumental.shape[1] == 2 else instrumental[:, 0]
-        else:
-            inst_mono = instrumental
-            
-        if len(original.shape) > 1:
-            orig_mono = np.mean(original, axis=1) if original.shape[1] == 2 else original[:, 0]
-        else:
-            orig_mono = original
-        
-        min_len = min(len(inst_mono), len(orig_mono))
-        inst_mono = inst_mono[:min_len]
-        orig_mono = orig_mono[:min_len]
-        
-        spec_inst = self.compute_spectrogram(inst_mono)
-        spec_orig = self.compute_spectrogram(orig_mono)
-        
-        min_frames = min(spec_inst.shape[1], spec_orig.shape[1])
-        spec_inst = spec_inst[:, :min_frames]
-        spec_orig = spec_orig[:, :min_frames]
-        
-        logger.info(f"Spectrogram shape: {spec_inst.shape}")
-        
-        epsilon = 1e-10
-        ratio = (spec_inst + epsilon) / (spec_orig + epsilon)
-        
-        min_energy = np.percentile(spec_orig, 10)
-        damage_mask = (ratio < threshold) & (spec_orig > min_energy)
-        
-        damage_per_frame = np.sum(damage_mask, axis=0) / damage_mask.shape[0]
-        damage_per_frame = gaussian_filter1d(damage_per_frame, sigma=3)
-        
-        logger.info(f"Damage per frame - min: {damage_per_frame.min():.3f}, "
-                   f"max: {damage_per_frame.max():.3f}, mean: {damage_per_frame.mean():.3f}")
-        
-        damage_threshold = 0.05
-        damaged_frames = damage_per_frame > damage_threshold
-        
-        regions = []
-        in_region = False
-        region_start = 0
-        
-        for i, is_damaged in enumerate(damaged_frames):
-            if is_damaged and not in_region:
-                region_start = i
-                in_region = True
-            elif not is_damaged and in_region:
-                if i - region_start >= min_damage_frames:
-                    freq_mask = np.mean(damage_mask[:, region_start:i], axis=1) > 0.3
-                    severity = np.mean(damage_per_frame[region_start:i])
-                    
-                    start_sample = region_start * self.hop_length
-                    end_sample = i * self.hop_length
-                    duration = (end_sample - start_sample) / self.sample_rate
-                    
-                    if duration <= max_duration_sec:
-                        regions.append((start_sample, end_sample, duration, severity, freq_mask))
-                in_region = False
-        
-        if in_region and len(damaged_frames) - region_start >= min_damage_frames:
-            freq_mask = np.mean(damage_mask[:, region_start:], axis=1) > 0.3
-            severity = np.mean(damage_per_frame[region_start:])
-            start_sample = region_start * self.hop_length
-            end_sample = len(damaged_frames) * self.hop_length
-            duration = (end_sample - start_sample) / self.sample_rate
-            if duration <= max_duration_sec:
-                regions.append((start_sample, end_sample, duration, severity, freq_mask))
-        
-        regions.sort(key=lambda r: r[3], reverse=True)
-        
-        logger.info(f"Found {len(regions)} damaged regions")
-        for i, (start, end, dur, sev, mask) in enumerate(regions[:10]):
-            damaged_bands = np.sum(mask)
-            logger.info(f"  Region {i+1}: {dur:.2f}s, severity: {sev:.3f}, {damaged_bands} freq bands")
-        
-        return regions
-    
-    def get_frequency_ranges(self, freq_mask):
-        """Convert frequency mask to Hz ranges."""
-        freqs = np.fft.rfftfreq(self.n_fft, 1.0 / self.sample_rate)
-        damaged_freqs = freqs[freq_mask]
-        
-        if len(damaged_freqs) == 0:
-            return None
-        
-        return (damaged_freqs.min(), damaged_freqs.max())
 
 
 
@@ -474,1713 +549,6 @@ class UVRSeparator:
 
 
 
-class VampNetRestorer:
-    """Basic spectral interpolation for light damage."""
-    
-    PRESETS = {
-        "ultra_fast": (1, 0.6),
-        "fast": (2, 0.7),
-        "balanced": (4, 0.8),
-        "high_quality": (8, 0.9),
-    }
-    
-    def __init__(self, device=None):
-        self.device = device or ('cuda' if torch.cuda.is_available() else 'cpu')
-        self.sample_rate = 44100
-        self._loaded = True
-    
-    def load_model(self, progress_callback=None):
-        if progress_callback:
-            progress_callback("✅ Spectral restoration ready")
-        self._loaded = True
-    
-    def restore_region(self, damaged_audio, original_audio, freq_mask,
-                       preset="balanced", progress_callback=None):
-        iterations, strength = self.PRESETS.get(preset, self.PRESETS["balanced"])
-        
-        if progress_callback:
-            progress_callback(f"Spectral interpolation ({iterations} iterations)...")
-        
-        return self._restore_with_interpolation(
-            damaged_audio, freq_mask, iterations, strength, progress_callback
-        )
-    
-    def _restore_with_interpolation(self, damaged, freq_mask, iterations, strength, progress_callback):
-        n_fft = 2048
-        hop = 512
-        
-        def stft(audio):
-            if len(audio.shape) > 1:
-                audio = np.mean(audio, axis=1)
-            
-            pad_len = n_fft - (len(audio) % hop)
-            audio = np.pad(audio, (0, pad_len))
-            
-            num_frames = (len(audio) - n_fft) // hop + 1
-            window = np.hanning(n_fft)
-            
-            result = np.zeros((n_fft // 2 + 1, num_frames), dtype=complex)
-            
-            for i in range(num_frames):
-                s = i * hop
-                frame = audio[s:s + n_fft] * window
-                result[:, i] = np.fft.rfft(frame)
-            
-            return result
-        
-        def istft(spec, length):
-            num_frames = spec.shape[1]
-            window = np.hanning(n_fft)
-            
-            result = np.zeros(length + n_fft)
-            window_sum = np.zeros(length + n_fft)
-            
-            for i in range(num_frames):
-                s = i * hop
-                frame = np.fft.irfft(spec[:, i])
-                result[s:s + n_fft] += frame * window
-                window_sum[s:s + n_fft] += window ** 2
-            
-            window_sum = np.maximum(window_sum, 1e-10)
-            return (result / window_sum)[:length]
-        
-        orig_shape = damaged.shape
-        orig_len = len(damaged) if len(damaged.shape) == 1 else damaged.shape[0]
-        is_stereo = len(orig_shape) > 1 and orig_shape[1] == 2
-        
-        if is_stereo:
-            channels = [damaged[:, 0], damaged[:, 1]]
-        else:
-            channels = [damaged.flatten()]
-        
-        result_channels = []
-        
-        for ch_idx, damaged_ch in enumerate(channels):
-            dam_spec = stft(damaged_ch)
-            
-            if len(freq_mask) != dam_spec.shape[0]:
-                freq_mask_extended = np.interp(
-                    np.linspace(0, 1, dam_spec.shape[0]),
-                    np.linspace(0, 1, len(freq_mask)),
-                    freq_mask.astype(float)
-                ) > 0.5
-            else:
-                freq_mask_extended = freq_mask
-            
-            mag = np.abs(dam_spec)
-            phase = np.angle(dam_spec)
-            
-            result_mag = mag.copy()
-            
-            for iteration in range(iterations):
-                new_mag = result_mag.copy()
-                
-                for f_idx in range(len(freq_mask_extended)):
-                    if freq_mask_extended[f_idx]:
-                        below_idx = None
-                        above_idx = None
-                        
-                        for search_dist in range(1, min(50, dam_spec.shape[0])):
-                            if below_idx is None and f_idx - search_dist >= 0:
-                                if not freq_mask_extended[f_idx - search_dist]:
-                                    below_idx = f_idx - search_dist
-                            if above_idx is None and f_idx + search_dist < len(freq_mask_extended):
-                                if not freq_mask_extended[f_idx + search_dist]:
-                                    above_idx = f_idx + search_dist
-                            if below_idx is not None and above_idx is not None:
-                                break
-                        
-                        if below_idx is not None and above_idx is not None:
-                            weight = (f_idx - below_idx) / (above_idx - below_idx)
-                            interpolated = (1 - weight) * result_mag[below_idx, :] + weight * result_mag[above_idx, :]
-                        elif below_idx is not None:
-                            interpolated = result_mag[below_idx, :]
-                        elif above_idx is not None:
-                            interpolated = result_mag[above_idx, :]
-                        else:
-                            continue
-                        
-                        for t in range(dam_spec.shape[1]):
-                            t_neighbors = []
-                            for dt in [-2, -1, 1, 2]:
-                                if 0 <= t + dt < dam_spec.shape[1]:
-                                    t_neighbors.append(result_mag[f_idx, t + dt])
-                            
-                            if t_neighbors:
-                                temporal_avg = np.mean(t_neighbors)
-                                interpolated[t] = 0.7 * interpolated[t] + 0.3 * temporal_avg
-                        
-                        current_strength = strength * (iteration + 1) / iterations
-                        new_mag[f_idx, :] = (1 - current_strength) * result_mag[f_idx, :] + current_strength * interpolated
-                
-                result_mag = new_mag
-                
-                if iteration < iterations - 1:
-                    result_mag = gaussian_filter(result_mag, sigma=0.3)
-            
-            result_spec = result_mag * np.exp(1j * phase)
-            result_ch = istft(result_spec, orig_len)
-            result_channels.append(result_ch)
-        
-        if is_stereo:
-            result = np.stack(result_channels, axis=1)
-        else:
-            result = result_channels[0]
-        
-        return result.astype(np.float32)
-    
-    def cleanup(self):
-        pass
-
-
-
-class AudioSRRestorer:
-    """Uses AudioSR for audio super-resolution with improved blending."""
-    
-    PRESETS = {
-        "ultra_fast": (10, 3.5),
-        "fast": (25, 3.5),
-        "balanced": (50, 3.5),
-        "high_quality": (100, 3.5),
-    }
-    
-    # Conservative limits to prevent freezing/crashes
-    MAX_CHUNK_DURATION = 5.0      # seconds - AudioSR's sweet spot
-    MIN_CHUNK_DURATION = 1.0      # minimum processable length
-    OVERLAP_RATIO = 0.15          # 15% overlap between chunks
-    MAX_TOTAL_DURATION = 300.0    # 5 minutes max to prevent memory issues
-    
-    def __init__(self, device=None):
-        self.device = device or ('cuda' if torch.cuda.is_available() else 'cpu')
-        self.model = None
-        self._loaded = False
-        self.output_sr = 48000    # AudioSR outputs 48kHz
-        self.input_sr = 44100
-    
-    def load_model(self, progress_callback=None):
-        if self._loaded:
-            return
-        
-        if progress_callback:
-            progress_callback("Loading AudioSR model...")
-        
-        try:
-            from audiosr import build_model, super_resolution
-            
-            self.super_resolution_fn = super_resolution
-            self.model = build_model(model_name="basic", device=self.device)
-            self._loaded = True
-            
-            if progress_callback:
-                progress_callback("✅ AudioSR model loaded")
-                
-        except Exception as e:
-            logger.error(f"Failed to load AudioSR: {e}")
-            raise
-    
-    def _create_crossfade_weights(self, length, fade_samples):
-        """Create smooth crossfade weight array."""
-        weights = np.ones(length, dtype=np.float32)
-        
-        if fade_samples > 0 and fade_samples * 2 < length:
-            # Smooth fade using raised cosine (Hann-like)
-            fade_in = 0.5 * (1 - np.cos(np.pi * np.arange(fade_samples) / fade_samples))
-            fade_out = 0.5 * (1 + np.cos(np.pi * np.arange(fade_samples) / fade_samples))
-            
-            weights[:fade_samples] = fade_in
-            weights[-fade_samples:] = fade_out
-        
-        return weights
-    
-    def _estimate_safe_chunk_duration(self, total_samples, sample_rate):
-        """Estimate safe chunk duration based on available memory."""
-        total_duration = total_samples / sample_rate
-        
-        # Check available GPU memory if using CUDA
-        if self.device == 'cuda' and torch.cuda.is_available():
-            try:
-                free_memory = torch.cuda.get_device_properties(0).total_memory
-                allocated = torch.cuda.memory_allocated(0)
-                available_gb = (free_memory - allocated) / (1024**3)
-                
-                # Rough estimate: AudioSR needs ~2GB per 5 seconds at 48kHz
-                if available_gb < 4:
-                    return min(3.0, self.MAX_CHUNK_DURATION)
-                elif available_gb < 6:
-                    return min(4.0, self.MAX_CHUNK_DURATION)
-                else:
-                    return self.MAX_CHUNK_DURATION
-            except:
-                pass
-        
-        return self.MAX_CHUNK_DURATION
-    
-    def _process_single_chunk(self, chunk, ddim_steps, guidance_scale, chunk_idx, total_chunks, progress_callback):
-        """Process a single audio chunk through AudioSR with error handling."""
-        temp_input_path = None
-        original_len = len(chunk)
-        
-        try:
-            # Ensure minimum length for AudioSR
-            min_samples = int(self.MIN_CHUNK_DURATION * self.input_sr)
-            
-            if len(chunk) < min_samples:
-                # Pad with reflection to avoid edge artifacts
-                pad_needed = min_samples - len(chunk)
-                chunk = np.pad(chunk, (0, pad_needed), mode='reflect')
-            
-            # Normalize chunk to prevent clipping issues
-            chunk_max = np.max(np.abs(chunk))
-            if chunk_max > 0:
-                chunk_normalized = chunk / chunk_max
-            else:
-                chunk_normalized = chunk
-            
-            # Write temporary file
-            temp_input_path = tempfile.mktemp(suffix='.wav')
-            sf.write(temp_input_path, chunk_normalized, self.input_sr)
-            
-            # Clear GPU memory before processing
-            if self.device == 'cuda':
-                torch.cuda.empty_cache()
-            
-            if progress_callback:
-                progress_callback(f"AudioSR processing chunk {chunk_idx + 1}/{total_chunks}...")
-            
-            # Run AudioSR
-            restored = self.super_resolution_fn(
-                self.model,
-                temp_input_path,
-                seed=42,
-                ddim_steps=ddim_steps,
-                guidance_scale=guidance_scale,
-                latent_t_per_second=12.8
-            )
-            
-            # Convert output to numpy
-            if torch.is_tensor(restored):
-                restored = restored.cpu().numpy()
-            
-            # Handle various output shapes from AudioSR
-            if len(restored.shape) == 3:
-                restored = restored[0, 0, :]  # [batch, channel, samples]
-            elif len(restored.shape) == 2:
-                if restored.shape[0] == 1:
-                    restored = restored[0, :]  # [batch, samples]
-                else:
-                    restored = restored[0, :]  # [channels, samples] - take first
-            
-            # Resample from 48kHz back to input sample rate
-            if self.output_sr != self.input_sr:
-                target_samples = int(len(restored) * self.input_sr / self.output_sr)
-                restored = signal.resample(restored, target_samples)
-            
-            # Restore original amplitude
-            if chunk_max > 0:
-                restored = restored * chunk_max
-            
-            # Trim to original length (remove padding if added)
-            if len(restored) > original_len:
-                restored = restored[:original_len]
-            elif len(restored) < original_len:
-                # Shouldn't happen often, but handle gracefully
-                restored = np.pad(restored, (0, original_len - len(restored)), mode='edge')
-            
-            return restored, True
-            
-        except torch.cuda.OutOfMemoryError:
-            logger.warning(f"CUDA OOM on chunk {chunk_idx + 1}, returning original")
-            torch.cuda.empty_cache()
-            return chunk[:original_len], False
-            
-        except Exception as e:
-            logger.warning(f"AudioSR chunk {chunk_idx + 1} failed: {e}")
-            return chunk[:original_len], False
-            
-        finally:
-            # Cleanup
-            if temp_input_path and os.path.exists(temp_input_path):
-                try:
-                    os.unlink(temp_input_path)
-                except:
-                    pass
-            
-            if self.device == 'cuda':
-                torch.cuda.empty_cache()
-            gc.collect()
-    
-    def restore_region(self, damaged_audio, original_audio, freq_mask,
-                       preset="balanced", progress_callback=None):
-        """Restore damaged region using AudioSR with proper chunking and blending."""
-        if not self._loaded:
-            self.load_model(progress_callback)
-        
-        ddim_steps, guidance_scale = self.PRESETS.get(preset, self.PRESETS["balanced"])
-        
-        # Get audio dimensions
-        orig_shape = damaged_audio.shape
-        orig_len = damaged_audio.shape[0] if len(damaged_audio.shape) > 1 else len(damaged_audio)
-        is_stereo = len(orig_shape) > 1 and orig_shape[1] == 2
-        
-        # Check duration limit
-        duration = orig_len / self.input_sr
-        if duration > self.MAX_TOTAL_DURATION:
-            if progress_callback:
-                progress_callback(f"⚠️ Audio too long ({duration:.1f}s), truncating to {self.MAX_TOTAL_DURATION}s")
-            orig_len = int(self.MAX_TOTAL_DURATION * self.input_sr)
-            if is_stereo:
-                damaged_audio = damaged_audio[:orig_len, :]
-            else:
-                damaged_audio = damaged_audio[:orig_len]
-        
-        if progress_callback:
-            progress_callback(f"AudioSR restoration ({ddim_steps} steps, {duration:.1f}s audio)...")
-        
-        # Convert to mono for processing
-        if is_stereo:
-            # Store original stereo info for later reconstruction
-            left_channel = damaged_audio[:, 0].copy()
-            right_channel = damaged_audio[:, 1].copy()
-            audio_mono = (left_channel + right_channel) / 2
-            
-            # Calculate stereo difference for reconstruction
-            stereo_diff = (left_channel - right_channel) / 2
-        else:
-            audio_mono = damaged_audio.flatten()
-            stereo_diff = None
-        
-        # Determine chunk parameters
-        chunk_duration = self._estimate_safe_chunk_duration(len(audio_mono), self.input_sr)
-        chunk_samples = int(chunk_duration * self.input_sr)
-        overlap_samples = int(chunk_samples * self.OVERLAP_RATIO)
-        hop_samples = chunk_samples - overlap_samples
-        
-        # Ensure valid parameters
-        if hop_samples <= 0:
-            hop_samples = chunk_samples // 2
-            overlap_samples = chunk_samples - hop_samples
-        
-        total_len = len(audio_mono)
-        
-        # Calculate number of chunks
-        if total_len <= chunk_samples:
-            num_chunks = 1
-        else:
-            num_chunks = int(np.ceil((total_len - overlap_samples) / hop_samples))
-        
-        if progress_callback:
-            progress_callback(f"Processing {num_chunks} chunks ({chunk_duration:.1f}s each, {overlap_samples/self.input_sr:.2f}s overlap)...")
-        
-        # Initialize output buffers with overlap-add
-        output = np.zeros(total_len, dtype=np.float64)
-        weight_sum = np.zeros(total_len, dtype=np.float64)
-        
-        successful_chunks = 0
-        
-        for i in range(num_chunks):
-            # Calculate chunk boundaries
-            start = i * hop_samples
-            end = min(start + chunk_samples, total_len)
-            
-            # For last chunk, adjust to ensure full coverage
-            if i == num_chunks - 1 and end < total_len:
-                end = total_len
-                start = max(0, end - chunk_samples)
-            
-            chunk = audio_mono[start:end].copy()
-            actual_len = len(chunk)
-            
-            # Process chunk
-            restored_chunk, success = self._process_single_chunk(
-                chunk, ddim_steps, guidance_scale, 
-                i, num_chunks, progress_callback
-            )
-            
-            if success:
-                successful_chunks += 1
-            
-            # Ensure correct length
-            if len(restored_chunk) != actual_len:
-                if len(restored_chunk) > actual_len:
-                    restored_chunk = restored_chunk[:actual_len]
-                else:
-                    restored_chunk = np.pad(restored_chunk, (0, actual_len - len(restored_chunk)), mode='edge')
-            
-            # Create weights for this chunk (with crossfade)
-            weights = self._create_crossfade_weights(actual_len, overlap_samples)
-            
-            # First chunk: no fade-in needed
-            if i == 0:
-                weights[:overlap_samples] = 1.0
-            
-            # Last chunk: no fade-out needed
-            if i == num_chunks - 1:
-                weights[-overlap_samples:] = 1.0
-            
-            # Accumulate with overlap-add
-            output[start:start + actual_len] += restored_chunk * weights
-            weight_sum[start:start + actual_len] += weights
-        
-        # Normalize by weights
-        weight_sum = np.maximum(weight_sum, 1e-8)
-        output = (output / weight_sum).astype(np.float32)
-        
-        if progress_callback:
-            progress_callback(f"AudioSR: {successful_chunks}/{num_chunks} chunks processed successfully")
-        
-        # Frequency-selective blending with original
-        output = self._frequency_selective_blend(
-            original=audio_mono,
-            restored=output,
-            freq_mask=freq_mask,
-            blend_strength=0.85,
-            progress_callback=progress_callback
-        )
-        
-        # Restore stereo if needed
-        if is_stereo:
-            output = self._reconstruct_stereo(output, stereo_diff, left_channel, right_channel, orig_len)
-        
-        # Final length adjustment
-        if len(output) > orig_len:
-            output = output[:orig_len] if not is_stereo else output[:orig_len, :]
-        elif len(output) < orig_len:
-            if is_stereo:
-                pad_len = orig_len - output.shape[0]
-                output = np.pad(output, ((0, pad_len), (0, 0)), mode='edge')
-            else:
-                output = np.pad(output, (0, orig_len - len(output)), mode='edge')
-        
-        if progress_callback:
-            progress_callback("✅ AudioSR restoration complete")
-        
-        return output.astype(np.float32)
-    
-    def _frequency_selective_blend(self, original, restored, freq_mask, blend_strength=0.85, progress_callback=None):
-        """
-        Blend restored audio with original, only replacing damaged frequencies.
-        This prevents AudioSR from changing frequencies that were already good.
-        """
-        if progress_callback:
-            progress_callback("Frequency-selective blending...")
-        
-        n_fft = 2048
-        hop_length = 512
-        
-        min_len = min(len(original), len(restored))
-        original = original[:min_len]
-        restored = restored[:min_len]
-        
-        # Compute STFTs
-        orig_spec = self._stft(original, n_fft, hop_length)
-        rest_spec = self._stft(restored, n_fft, hop_length)
-        
-        # Ensure same shape
-        min_frames = min(orig_spec.shape[1], rest_spec.shape[1])
-        orig_spec = orig_spec[:, :min_frames]
-        rest_spec = rest_spec[:, :min_frames]
-        
-        num_bins = orig_spec.shape[0]
-        
-        # Resize frequency mask to match spectrogram bins
-        if len(freq_mask) != num_bins:
-            freq_mask_resized = np.interp(
-                np.linspace(0, 1, num_bins),
-                np.linspace(0, 1, len(freq_mask)),
-                freq_mask.astype(float)
-            )
-        else:
-            freq_mask_resized = freq_mask.astype(float)
-        
-        # Smooth the mask to avoid harsh transitions between bands
-        freq_mask_smooth = gaussian_filter1d(freq_mask_resized, sigma=5)
-        
-        # Create 2D blend mask: damaged frequencies use restored, others use original
-        blend_mask = freq_mask_smooth[:, np.newaxis] * blend_strength
-        
-        # Add slight temporal smoothing to the mask
-        blend_mask = gaussian_filter(blend_mask, sigma=(2, 3))
-        
-        # Blend magnitude and phase separately for better results
-        orig_mag = np.abs(orig_spec)
-        rest_mag = np.abs(rest_spec)
-        orig_phase = np.angle(orig_spec)
-        rest_phase = np.angle(rest_spec)
-        
-        # Blend magnitudes
-        blended_mag = (1 - blend_mask) * orig_mag + blend_mask * rest_mag
-        
-        # For phase, prefer original in undamaged regions, blend in damaged
-        # Phase blending is tricky - use weighted combination
-        phase_blend_mask = blend_mask * 0.7  # Less aggressive phase blending
-        
-        # Simple phase blending (complex domain would be better but more complex)
-        blended_phase = orig_phase.copy()
-        high_damage_mask = blend_mask > 0.5
-        blended_phase[high_damage_mask] = rest_phase[high_damage_mask]
-        
-        # Reconstruct complex spectrogram
-        blended_spec = blended_mag * np.exp(1j * blended_phase)
-        
-        # ISTFT
-        result = self._istft(blended_spec, min_len, n_fft, hop_length)
-        
-        return result.astype(np.float32)
-    
-    def _reconstruct_stereo(self, mono_restored, stereo_diff, orig_left, orig_right, target_len):
-        """
-        Reconstruct stereo from restored mono using mid-side technique.
-        Preserves the original stereo field while applying restoration.
-        """
-        # Ensure all arrays are the right length
-        mono_restored = mono_restored[:target_len]
-        
-        if stereo_diff is not None:
-            stereo_diff = stereo_diff[:target_len]
-            
-            # Scale stereo difference to match restored mid channel energy
-            orig_mid = (orig_left[:target_len] + orig_right[:target_len]) / 2
-            
-            # Calculate RMS ratio for scaling
-            orig_rms = np.sqrt(np.mean(orig_mid ** 2) + 1e-8)
-            rest_rms = np.sqrt(np.mean(mono_restored ** 2) + 1e-8)
-            
-            scale = rest_rms / orig_rms if orig_rms > 1e-8 else 1.0
-            scale = np.clip(scale, 0.5, 2.0)  # Limit scaling to reasonable range
-            
-            scaled_diff = stereo_diff * scale
-            
-            # Reconstruct left and right
-            new_left = mono_restored + scaled_diff
-            new_right = mono_restored - scaled_diff
-        else:
-            # No stereo info available, duplicate mono
-            new_left = mono_restored
-            new_right = mono_restored
-        
-        # Ensure correct length
-        if len(new_left) < target_len:
-            new_left = np.pad(new_left, (0, target_len - len(new_left)), mode='edge')
-            new_right = np.pad(new_right, (0, target_len - len(new_right)), mode='edge')
-        
-        return np.stack([new_left[:target_len], new_right[:target_len]], axis=1)
-    
-    def _stft(self, audio, n_fft, hop_length):
-        """Compute STFT with proper padding."""
-        # Pad for centered STFT
-        pad_len = n_fft // 2
-        audio_padded = np.pad(audio, (pad_len, pad_len), mode='reflect')
-        
-        num_frames = (len(audio_padded) - n_fft) // hop_length + 1
-        window = np.hanning(n_fft)
-        
-        spec = np.zeros((n_fft // 2 + 1, num_frames), dtype=complex)
-        
-        for i in range(num_frames):
-            start = i * hop_length
-            frame = audio_padded[start:start + n_fft] * window
-            spec[:, i] = np.fft.rfft(frame)
-        
-        return spec
-    
-    def _istft(self, spec, target_length, n_fft, hop_length):
-        """Compute ISTFT with overlap-add."""
-        num_frames = spec.shape[1]
-        window = np.hanning(n_fft)
-        
-        # Output buffer
-        pad_len = n_fft // 2
-        output_length = (num_frames - 1) * hop_length + n_fft
-        output = np.zeros(output_length, dtype=np.float64)
-        window_sum = np.zeros(output_length, dtype=np.float64)
-        
-        for i in range(num_frames):
-            start = i * hop_length
-            frame = np.fft.irfft(spec[:, i])
-            
-            # Ensure frame is correct length
-            if len(frame) < n_fft:
-                frame = np.pad(frame, (0, n_fft - len(frame)))
-            elif len(frame) > n_fft:
-                frame = frame[:n_fft]
-            
-            output[start:start + n_fft] += frame * window
-            window_sum[start:start + n_fft] += window ** 2
-        
-        # Normalize
-        window_sum = np.maximum(window_sum, 1e-10)
-        output = output / window_sum
-        
-        # Remove padding
-        output = output[pad_len:]
-        
-        # Adjust to target length
-        if len(output) > target_length:
-            output = output[:target_length]
-        elif len(output) < target_length:
-            output = np.pad(output, (0, target_length - len(output)), mode='edge')
-        
-        return output.astype(np.float32)
-    
-    def cleanup(self):
-        """Release GPU memory and cleanup."""
-        if self.model is not None:
-            del self.model
-            self.model = None
-        self._loaded = False
-        
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-        gc.collect()
-
-
-
-
-class EnhancedSpectralRestorer:
-    """Advanced spectral interpolation with harmonic awareness."""
-    
-    PRESETS = {
-        "ultra_fast": {"iterations": 1, "harmonic_search": False, "multi_res": False},
-        "fast": {"iterations": 2, "harmonic_search": True, "multi_res": False},
-        "balanced": {"iterations": 4, "harmonic_search": True, "multi_res": True},
-        "high_quality": {"iterations": 8, "harmonic_search": True, "multi_res": True},
-    }
-    
-    def __init__(self, device=None):
-        self.device = device
-        self.sample_rate = 44100
-        self._loaded = True
-    
-    def load_model(self, progress_callback=None):
-        if progress_callback:
-            progress_callback("✅ Enhanced Spectral Restorer ready")
-        self._loaded = True
-    
-    def restore_region(self, damaged_audio, original_audio, freq_mask,
-                       preset="balanced", progress_callback=None):
-        settings = self.PRESETS.get(preset, self.PRESETS["balanced"])
-        
-        if progress_callback:
-            progress_callback(f"Enhanced spectral restoration ({settings['iterations']} iterations)...")
-        
-        orig_shape = damaged_audio.shape
-        orig_len = damaged_audio.shape[0] if len(damaged_audio.shape) > 1 else len(damaged_audio)
-        is_stereo = len(orig_shape) > 1 and orig_shape[1] == 2
-        
-        if is_stereo:
-            left = self._restore_channel(damaged_audio[:, 0], freq_mask, settings, progress_callback, "L")
-            right = self._restore_channel(damaged_audio[:, 1], freq_mask, settings, progress_callback, "R")
-            result = np.stack([left, right], axis=1)
-        else:
-            mono = damaged_audio.flatten() if len(damaged_audio.shape) > 1 else damaged_audio
-            result = self._restore_channel(mono, freq_mask, settings, progress_callback, "")
-        
-        if len(result) > orig_len:
-            result = result[:orig_len]
-        elif len(result) < orig_len:
-            result = np.pad(result, ((0, orig_len - len(result)), (0, 0)) if is_stereo else (0, orig_len - len(result)))
-        
-        return result.astype(np.float32)
-    
-    def _restore_channel(self, audio, freq_mask, settings, progress_callback, channel_name):
-        if settings["multi_res"]:
-            results = []
-            weights = []
-            
-            for n_fft in [1024, 2048, 4096]:
-                restored = self._process_single_resolution(audio, freq_mask, n_fft, settings)
-                results.append(restored)
-                weights.append(n_fft / 4096)
-            
-            min_len = min(len(r) for r in results)
-            results = [r[:min_len] for r in results]
-            weights = np.array(weights) / sum(weights)
-            
-            final = sum(w * r for w, r in zip(weights, results))
-        else:
-            final = self._process_single_resolution(audio, freq_mask, 2048, settings)
-        
-        return final
-    
-    def _process_single_resolution(self, audio, freq_mask, n_fft, settings):
-        hop_length = n_fft // 4
-        
-        spec = self._stft(audio, n_fft, hop_length)
-        mag = np.abs(spec)
-        phase = np.angle(spec)
-        
-        target_bins = spec.shape[0]
-        if len(freq_mask) != target_bins:
-            freq_mask_resized = np.interp(
-                np.linspace(0, 1, target_bins),
-                np.linspace(0, 1, len(freq_mask)),
-                freq_mask.astype(float)
-            ) > 0.5
-        else:
-            freq_mask_resized = freq_mask.copy()
-        
-        damage_mask_2d = np.tile(freq_mask_resized[:, np.newaxis], (1, spec.shape[1]))
-        
-        restored_mag = mag.copy()
-        
-        for iteration in range(settings["iterations"]):
-            if settings["harmonic_search"]:
-                restored_mag = self._reconstruct_harmonics(restored_mag, damage_mask_2d, n_fft)
-            
-            restored_mag = self._interpolate_frequencies(restored_mag, damage_mask_2d)
-            restored_mag = self._temporal_smooth(restored_mag, damage_mask_2d, mag)
-        
-        restored_spec = restored_mag * np.exp(1j * phase)
-        restored_audio = self._istft(restored_spec, len(audio), n_fft, hop_length)
-        
-        return restored_audio
-    
-    def _stft(self, audio, n_fft, hop_length):
-        pad_len = n_fft - (len(audio) % hop_length)
-        audio_padded = np.pad(audio, (n_fft // 2, pad_len + n_fft // 2))
-        
-        num_frames = (len(audio_padded) - n_fft) // hop_length + 1
-        window = np.hanning(n_fft)
-        
-        spec = np.zeros((n_fft // 2 + 1, num_frames), dtype=complex)
-        
-        for i in range(num_frames):
-            start = i * hop_length
-            frame = audio_padded[start:start + n_fft] * window
-            spec[:, i] = np.fft.rfft(frame)
-        
-        return spec
-    
-    def _istft(self, spec, target_length, n_fft, hop_length):
-        num_frames = spec.shape[1]
-        window = np.hanning(n_fft)
-        
-        output_length = (num_frames - 1) * hop_length + n_fft
-        output = np.zeros(output_length)
-        window_sum = np.zeros(output_length)
-        
-        for i in range(num_frames):
-            start = i * hop_length
-            frame = np.fft.irfft(spec[:, i])
-            output[start:start + n_fft] += frame * window
-            window_sum[start:start + n_fft] += window ** 2
-        
-        window_sum = np.maximum(window_sum, 1e-10)
-        output = output / window_sum
-        
-        output = output[n_fft // 2:]
-        if len(output) > target_length:
-            output = output[:target_length]
-        elif len(output) < target_length:
-            output = np.pad(output, (0, target_length - len(output)))
-        
-        return output
-    
-    def _reconstruct_harmonics(self, mag, damage_mask, n_fft):
-        result = mag.copy()
-        freqs = np.fft.rfftfreq(n_fft, 1.0 / self.sample_rate)
-        
-        undamaged_mask = ~damage_mask
-        mean_energy = np.mean(mag, axis=1)
-        
-        threshold = np.percentile(mean_energy[undamaged_mask[:, 0]], 70)
-        fundamental_candidates = np.where(
-            (undamaged_mask[:, 0]) & (mean_energy > threshold)
-        )[0]
-        
-        for fund_bin in fundamental_candidates:
-            fund_freq = freqs[fund_bin]
-            if fund_freq < 50:
-                continue
-            
-            for harmonic_num in range(2, 6):
-                harmonic_freq = fund_freq * harmonic_num
-                harmonic_bin = int(harmonic_freq * n_fft / self.sample_rate)
-                
-                if harmonic_bin >= len(freqs):
-                    break
-                
-                if damage_mask[harmonic_bin, 0]:
-                    rolloff = 1.0 / (harmonic_num ** 0.8)
-                    estimated_mag = mag[fund_bin, :] * rolloff
-                    
-                    blend_factor = 0.7
-                    result[harmonic_bin, :] = (
-                        blend_factor * estimated_mag +
-                        (1 - blend_factor) * result[harmonic_bin, :]
-                    )
-        
-        return result
-    
-    def _interpolate_frequencies(self, mag, damage_mask):
-        result = mag.copy()
-        num_freqs, num_frames = mag.shape
-        
-        for f in range(num_freqs):
-            if not damage_mask[f, 0]:
-                continue
-            
-            below = above = None
-            
-            for dist in range(1, min(100, num_freqs)):
-                if below is None and f - dist >= 0 and not damage_mask[f - dist, 0]:
-                    below = f - dist
-                if above is None and f + dist < num_freqs and not damage_mask[f + dist, 0]:
-                    above = f + dist
-                if below is not None and above is not None:
-                    break
-            
-            if below is not None and above is not None:
-                dist_below = f - below
-                dist_above = above - f
-                total_dist = dist_below + dist_above
-                
-                weight_below = 1 - (dist_below / total_dist)
-                weight_above = 1 - (dist_above / total_dist)
-                
-                weight_sum = weight_below + weight_above
-                weight_below /= weight_sum
-                weight_above /= weight_sum
-                
-                result[f, :] = weight_below * mag[below, :] + weight_above * mag[above, :]
-                
-            elif below is not None:
-                dist = f - below
-                decay = np.exp(-0.1 * dist)
-                result[f, :] = mag[below, :] * decay
-                
-            elif above is not None:
-                dist = above - f
-                decay = np.exp(-0.1 * dist)
-                result[f, :] = mag[above, :] * decay
-        
-        return result
-    
-    def _temporal_smooth(self, mag, damage_mask, original_mag):
-        result = mag.copy()
-        
-        smoothed = gaussian_filter(mag, sigma=(1, 2))
-        
-        for f in range(mag.shape[0]):
-            if damage_mask[f, 0]:
-                result[f, :] = 0.7 * smoothed[f, :] + 0.3 * result[f, :]
-        
-        boundary_smooth = gaussian_filter1d(result, sigma=1, axis=1)
-        
-        for f in range(mag.shape[0]):
-            if damage_mask[f, 0]:
-                if f > 0 and not damage_mask[f - 1, 0]:
-                    result[f, :] = 0.5 * boundary_smooth[f, :] + 0.5 * result[f, :]
-                if f < mag.shape[0] - 1 and not damage_mask[f + 1, 0]:
-                    result[f, :] = 0.5 * boundary_smooth[f, :] + 0.5 * result[f, :]
-        
-        return result
-    
-    def cleanup(self):
-        pass
-
-
-
-class AudioInpaintingRestorer:
-    """
-    Diffusion-based audio inpainting using Eloimoliner's model.
-    Paper: "Diffusion-Based Audio Inpainting" (JAES, March 2024)
-    """
-    
-    PRESETS = {
-        "ultra_fast": {"steps": 25, "noise_level": 0.5},
-        "fast": {"steps": 50, "noise_level": 0.5},
-        "balanced": {"steps": 100, "noise_level": 0.5},
-        "high_quality": {"steps": 200, "noise_level": 0.5},
-    }
-    
-    MODELS = {
-        "musicnet_44k": {
-            "filename": "musicnet_44k_4s-560000.pt",
-            "sample_rate": 44100,
-            "segment_length": 4.0,
-            "description": "General music (44.1kHz)"
-        },
-        "maestro_22k": {
-            "filename": "maestro_22k_8s-750000.pt",
-            "sample_rate": 22050,
-            "segment_length": 8.0,
-            "description": "Piano/Classical (22kHz)"
-        }
-    }
-    
-    def __init__(self, device=None, model_type="musicnet_44k"):
-        self.device = device or ('cuda' if torch.cuda.is_available() else 'cpu')
-        self.model_type = model_type
-        self.model_config = self.MODELS[model_type]
-        
-        self.network = None
-        self.diff_params = None
-        self._loaded = False
-        self._fallback_restorer = None
-        
-        self.repo_path = INPAINTING_REPO_PATH
-        self.models_dir = INPAINTING_MODELS_DIR
-        self.model_path = os.path.join(self.models_dir, self.model_config["filename"])
-    
-    def load_model(self, progress_callback=None):
-        """Load the diffusion inpainting model."""
-        if self._loaded:
-            return
-        
-        # Check if repo and model exist
-        if not os.path.exists(self.repo_path):
-            if progress_callback:
-                progress_callback(f"⚠️ Inpainting repo not found, using fallback")
-            self._setup_fallback(progress_callback)
-            return
-        
-        if not os.path.exists(self.model_path):
-            if progress_callback:
-                progress_callback(f"⚠️ Model not found at {self.model_path}, using fallback")
-            self._setup_fallback(progress_callback)
-            return
-        
-        try:
-            if progress_callback:
-                progress_callback("Loading diffusion inpainting model...")
-            
-            # Add repo to path
-            if self.repo_path not in sys.path:
-                sys.path.insert(0, self.repo_path)
-            
-            # Load checkpoint
-            if progress_callback:
-                progress_callback(f"Loading checkpoint: {self.model_config['filename']}...")
-            
-            checkpoint = torch.load(self.model_path, map_location=self.device)
-            
-            # Build network from checkpoint
-            self.network = self._build_network(checkpoint)
-            self.network.to(self.device)
-            self.network.eval()
-            
-            # Setup diffusion parameters
-            self.diff_params = self._setup_diff_params()
-            
-            self._loaded = True
-            
-            if progress_callback:
-                progress_callback("✅ Diffusion inpainting model loaded")
-                
-        except Exception as e:
-            logger.error(f"Failed to load inpainting model: {e}")
-            import traceback
-            logger.error(traceback.format_exc())
-            
-            if progress_callback:
-                progress_callback(f"⚠️ Load failed: {e}, using fallback")
-            
-            self._setup_fallback(progress_callback)
-    
-    def _build_network(self, checkpoint):
-        """Build network from checkpoint."""
-        try:
-            # Try importing from repo
-            from networks.unet_cqt import UNet
-            
-            if 'model_state_dict' in checkpoint:
-                state_dict = checkpoint['model_state_dict']
-            elif 'state_dict' in checkpoint:
-                state_dict = checkpoint['state_dict']
-            elif 'ema' in checkpoint:
-                state_dict = checkpoint['ema']
-            else:
-                state_dict = checkpoint
-            
-            # Try to infer architecture from state dict
-            # This is simplified - may need adjustment based on actual model
-            network = UNet(
-                in_channels=1,
-                out_channels=1,
-            )
-            network.load_state_dict(state_dict, strict=False)
-            return network
-            
-        except Exception as e:
-            logger.warning(f"Could not build UNet from repo: {e}")
-            
-            # Try direct load
-            if isinstance(checkpoint, torch.nn.Module):
-                return checkpoint
-            elif 'ema' in checkpoint and isinstance(checkpoint['ema'], torch.nn.Module):
-                return checkpoint['ema']
-            elif 'model' in checkpoint and isinstance(checkpoint['model'], torch.nn.Module):
-                return checkpoint['model']
-            else:
-                raise Exception(f"Cannot extract model from checkpoint: {type(checkpoint)}")
-    
-    def _setup_diff_params(self):
-        """Setup diffusion parameters."""
-        try:
-            from diff_params.edm import EDM
-            return EDM()
-        except ImportError:
-            # Minimal diff params
-            class SimpleDiffParams:
-                def __init__(self):
-                    self.sigma_min = 0.002
-                    self.sigma_max = 80
-                    self.rho = 7
-                
-                def get_sigmas(self, num_steps):
-                    ramp = torch.linspace(0, 1, num_steps)
-                    min_inv_rho = self.sigma_min ** (1 / self.rho)
-                    max_inv_rho = self.sigma_max ** (1 / self.rho)
-                    sigmas = (max_inv_rho + ramp * (min_inv_rho - max_inv_rho)) ** self.rho
-                    return sigmas
-            
-            return SimpleDiffParams()
-    
-    def _setup_fallback(self, progress_callback=None):
-        """Setup fallback to EnhancedSpectralRestorer."""
-        self._fallback_restorer = EnhancedSpectralRestorer(self.device)
-        self._fallback_restorer.load_model(progress_callback)
-        self._loaded = True
-    
-    def restore_region(self, damaged_audio, original_audio, freq_mask,
-                       preset="balanced", progress_callback=None):
-        """Restore damaged region using diffusion inpainting."""
-        if not self._loaded:
-            self.load_model(progress_callback)
-        
-        if self._fallback_restorer is not None:
-            return self._fallback_restorer.restore_region(
-                damaged_audio, original_audio, freq_mask, preset, progress_callback
-            )
-        
-        settings = self.PRESETS.get(preset, self.PRESETS["balanced"])
-        
-        if progress_callback:
-            progress_callback(f"Diffusion inpainting ({settings['steps']} steps)...")
-        
-        try:
-            return self._inpaint(damaged_audio, freq_mask, settings, progress_callback)
-        except Exception as e:
-            logger.error(f"Diffusion inpainting failed: {e}")
-            import traceback
-            logger.error(traceback.format_exc())
-            
-            if progress_callback:
-                progress_callback(f"⚠️ Inpainting failed, using spectral fallback...")
-            
-            if self._fallback_restorer is None:
-                self._fallback_restorer = EnhancedSpectralRestorer(self.device)
-                self._fallback_restorer.load_model(progress_callback)
-            
-            return self._fallback_restorer.restore_region(
-                damaged_audio, original_audio, freq_mask, preset, progress_callback
-            )
-    
-    def _inpaint(self, damaged_audio, freq_mask, settings, progress_callback):
-        """Core diffusion inpainting logic."""
-        orig_shape = damaged_audio.shape
-        orig_len = damaged_audio.shape[0] if len(damaged_audio.shape) > 1 else len(damaged_audio)
-        is_stereo = len(orig_shape) > 1 and orig_shape[1] == 2
-        
-        model_sr = self.model_config["sample_rate"]
-        segment_len = self.model_config["segment_length"]
-        segment_samples = int(segment_len * model_sr)
-        
-        # Convert to mono
-        if is_stereo:
-            audio_mono = np.mean(damaged_audio, axis=1)
-        else:
-            audio_mono = damaged_audio.flatten()
-        
-        # Resample if needed
-        input_sr = 44100
-        if input_sr != model_sr:
-            audio_mono = signal.resample(audio_mono, int(len(audio_mono) * model_sr / input_sr))
-        
-        # Normalize
-        audio_mono = audio_mono.astype(np.float32)
-        max_val = np.max(np.abs(audio_mono))
-        if max_val > 0:
-            audio_mono = audio_mono / max_val
-        
-        # Create inpainting mask
-        inpaint_mask = self._create_inpaint_mask(audio_mono, freq_mask, model_sr)
-        
-        # Process in segments
-        num_segments = int(np.ceil(len(audio_mono) / segment_samples))
-        results = []
-        
-        for i in range(num_segments):
-            start = i * segment_samples
-            end = min(start + segment_samples, len(audio_mono))
-            
-            segment = audio_mono[start:end]
-            mask_segment = inpaint_mask[start:end]
-            
-            # Pad if needed
-            if len(segment) < segment_samples:
-                pad_len = segment_samples - len(segment)
-                segment = np.pad(segment, (0, pad_len))
-                mask_segment = np.pad(mask_segment, (0, pad_len))
-            
-            if progress_callback:
-                progress_callback(f"Inpainting segment {i+1}/{num_segments}...")
-            
-            # Run diffusion
-            restored_segment = self._inpaint_segment(segment, mask_segment, settings, progress_callback)
-            
-            # Trim padding
-            if end - start < segment_samples:
-                restored_segment = restored_segment[:end - start]
-            
-            results.append(restored_segment)
-            torch.cuda.empty_cache()
-        
-        # Concatenate
-        restored = np.concatenate(results)
-        
-        # Resample back
-        if input_sr != model_sr:
-            restored = signal.resample(restored, int(len(restored) * input_sr / model_sr))
-        
-        # Restore amplitude
-        if max_val > 0:
-            restored = restored * max_val
-        
-        # Match length
-        if len(restored) > orig_len:
-            restored = restored[:orig_len]
-        elif len(restored) < orig_len:
-            restored = np.pad(restored, (0, orig_len - len(restored)))
-        
-        # Restore stereo
-        if is_stereo:
-            restored = np.stack([restored, restored], axis=1)
-        
-        if progress_callback:
-            progress_callback("✅ Diffusion inpainting complete")
-        
-        return restored.astype(np.float32)
-    
-    def _create_inpaint_mask(self, audio, freq_mask, sample_rate):
-        """Create time-domain inpainting mask from frequency mask."""
-        n_fft = 2048
-        hop_length = 512
-        
-        # Compute STFT
-        audio_tensor = torch.from_numpy(audio).float()
-        spec = torch.stft(
-            audio_tensor,
-            n_fft=n_fft,
-            hop_length=hop_length,
-            return_complex=True,
-            window=torch.hann_window(n_fft)
-        )
-        mag = torch.abs(spec)
-        
-        # Resize freq_mask
-        num_bins = mag.shape[0]
-        if len(freq_mask) != num_bins:
-            freq_mask_resized = np.interp(
-                np.linspace(0, 1, num_bins),
-                np.linspace(0, 1, len(freq_mask)),
-                freq_mask.astype(float)
-            )
-        else:
-            freq_mask_resized = freq_mask.astype(float)
-        
-        # Create frame-level damage mask
-        damage_per_frame = np.zeros(mag.shape[1])
-        
-        for f in range(num_bins):
-            if freq_mask_resized[f] > 0.5:
-                damage_per_frame += mag[f, :].numpy() * freq_mask_resized[f]
-        
-        if np.max(damage_per_frame) > 0:
-            damage_per_frame = damage_per_frame / np.max(damage_per_frame)
-        
-        frame_mask = (damage_per_frame > 0.2).astype(float)
-        frame_mask = gaussian_filter1d(frame_mask, sigma=3)
-        
-        # Expand to sample-level
-        sample_mask = np.zeros(len(audio))
-        
-        for i, val in enumerate(frame_mask):
-            start = i * hop_length
-            end = min(start + n_fft, len(audio))
-            sample_mask[start:end] = np.maximum(sample_mask[start:end], val)
-        
-        return sample_mask
-    
-    def _inpaint_segment(self, segment, mask, settings, progress_callback):
-        """Run diffusion inpainting on a single segment."""
-        num_steps = settings['steps']
-        
-        # Convert to tensor
-        x = torch.from_numpy(segment).float().unsqueeze(0).unsqueeze(0)
-        x = x.to(self.device)
-        
-        mask_t = torch.from_numpy(mask).float().unsqueeze(0).unsqueeze(0)
-        mask_t = mask_t.to(self.device)
-        
-        # Get sigma schedule
-        sigmas = self.diff_params.get_sigmas(num_steps).to(self.device)
-        
-        # Initialize with noise in masked regions
-        noise = torch.randn_like(x)
-        x_noisy = x * (1 - mask_t) + noise * sigmas[0] * mask_t
-        
-        # Diffusion loop
-        with torch.no_grad():
-            for i in range(num_steps - 1):
-                sigma = sigmas[i]
-                sigma_next = sigmas[i + 1]
-                
-                # Denoise
-                denoised = self.network(x_noisy, sigma.unsqueeze(0))
-                
-                # Apply mask
-                denoised = x * (1 - mask_t) + denoised * mask_t
-                
-                # Add noise for next step
-                if sigma_next > 0:
-                    noise = torch.randn_like(x)
-                    x_noisy = denoised + noise * sigma_next
-                else:
-                    x_noisy = denoised
-                
-                x_noisy = x * (1 - mask_t) + x_noisy * mask_t
-        
-        result = x_noisy.squeeze().cpu().numpy()
-        return result
-    
-    def cleanup(self):
-        """Release GPU memory."""
-        if self.network is not None:
-            del self.network
-            self.network = None
-        
-        if self.diff_params is not None:
-            del self.diff_params
-            self.diff_params = None
-        
-        if self._fallback_restorer is not None:
-            self._fallback_restorer.cleanup()
-            self._fallback_restorer = None
-        
-        self._loaded = False
-        torch.cuda.empty_cache()
-        gc.collect()
-
-
-
-class RestorationProcessor:
-    """Unified interface for audio restoration."""
-    
-    def __init__(self, model_type="spectral", device=None):
-        self.model_type = model_type
-        self.device = device or ('cuda' if torch.cuda.is_available() else 'cpu')
-        self.detector = None
-        self.restorer = None
-        self._loaded = False
-    
-    def load(self, progress_callback=None):
-        """Load the selected restoration model."""
-        if self._loaded:
-            return
-        
-        if progress_callback:
-            progress_callback(f"Initializing {self.model_type} restoration...")
-        
-        self.detector = SpectralHoleDetector()
-        
-        if self.model_type == "spectral":
-            self.restorer = VampNetRestorer(self.device)
-        elif self.model_type == "enhanced_spectral":
-            self.restorer = EnhancedSpectralRestorer(self.device)
-        elif self.model_type == "diffusion_inpaint":
-            self.restorer = AudioInpaintingRestorer(self.device)
-        elif self.model_type == "audiosr":
-            self.restorer = AudioSRRestorer(self.device)
-        else:
-            raise ValueError(f"Unknown model type: {self.model_type}")
-        
-        self.restorer.load_model(progress_callback)
-        self._loaded = True
-    
-    def process(self, instrumental_path, original_path, output_path,
-                preset="balanced", threshold=0.5, max_regions=10,
-                progress_callback=None):
-        """Full restoration pipeline with improved blending."""
-        if not self._loaded:
-            self.load(progress_callback)
-        
-        if progress_callback:
-            progress_callback("Loading audio files...")
-        
-        instrumental, sr = sf.read(instrumental_path)
-        original, orig_sr = sf.read(original_path)
-        
-        # Resample if needed
-        if orig_sr != sr:
-            original = signal.resample(original, int(len(original) * sr / orig_sr))
-        
-        # Match lengths
-        min_len = min(len(instrumental), len(original))
-        instrumental = instrumental[:min_len]
-        original = original[:min_len]
-        
-        if progress_callback:
-            progress_callback("Detecting damaged regions...")
-        
-        self.detector.sample_rate = sr
-        regions = self.detector.detect_spectral_damage(
-            instrumental, original, threshold=threshold
-        )
-        
-        if not regions:
-            if progress_callback:
-                progress_callback("No significant damage detected - saving as-is")
-            sf.write(output_path, instrumental, sr)
-            return output_path
-        
-        # Limit regions
-        regions = regions[:max_regions]
-        
-        # Merge overlapping or adjacent regions for better processing
-        regions = self._merge_adjacent_regions(regions, sr, gap_threshold=0.5)
-        
-        total_damage_time = sum(r[2] for r in regions)
-        if progress_callback:
-            progress_callback(f"Found {len(regions)} regions ({total_damage_time:.1f}s total)")
-        
-        result = instrumental.copy()
-        
-        for i, (start, end, duration, severity, freq_mask) in enumerate(regions):
-            if progress_callback:
-                progress_callback(f"Restoring region {i+1}/{len(regions)} ({duration:.1f}s, severity: {severity:.2f})")
-            
-            # Longer context for better blending
-            context_seconds = min(1.0, duration * 0.3)  # Up to 1 second or 30% of region
-            context_samples = int(context_seconds * sr)
-            
-            padded_start = max(0, start - context_samples)
-            padded_end = min(len(instrumental), end + context_samples)
-            
-            inst_chunk = instrumental[padded_start:padded_end].copy()
-            orig_chunk = original[padded_start:padded_end].copy()
-            
-            try:
-                restored_chunk = self.restorer.restore_region(
-                    inst_chunk, orig_chunk, freq_mask,
-                    preset=preset,
-                    progress_callback=progress_callback
-                )
-                
-                # Extract the actual region from restored chunk
-                actual_start = start - padded_start
-                actual_end = actual_start + (end - start)
-                
-                if len(restored_chunk.shape) > 1:
-                    restored_region = restored_chunk[actual_start:actual_end, :]
-                else:
-                    restored_region = restored_chunk[actual_start:actual_end]
-                
-                # Ensure correct length
-                target_len = end - start
-                restored_region = self._adjust_length(restored_region, target_len)
-                
-                # Improved crossfade with longer, smoother transitions
-                crossfade_samples = min(int(0.1 * sr), target_len // 3)  # Up to 100ms or 1/3 of region
-                
-                if crossfade_samples > 10:  # Only crossfade if meaningful
-                    orig_region = instrumental[start:end].copy()
-                    restored_region = self._apply_crossfade(
-                        orig_region, restored_region, crossfade_samples
-                    )
-                
-                result[start:end] = restored_region
-                
-                logger.info(f"Region {i+1} restored successfully")
-                
-            except Exception as e:
-                logger.error(f"Failed to restore region {i+1}: {e}")
-                import traceback
-                logger.error(traceback.format_exc())
-                continue
-            
-            # Periodic memory cleanup
-            if i % 3 == 0:
-                torch.cuda.empty_cache()
-                gc.collect()
-        
-        # Final processing
-        result = np.clip(result, -1.0, 1.0)
-        
-        # Optional: Apply subtle global smoothing to reduce any remaining artifacts
-        # result = self._final_smoothing(result, sr)
-        
-        sf.write(output_path, result, sr)
-        
-        if progress_callback:
-            progress_callback("✅ Restoration complete!")
-        
-        return output_path
-    
-    def _merge_adjacent_regions(self, regions, sr, gap_threshold=0.5):
-        """Merge regions that are close together for more coherent processing."""
-        if len(regions) <= 1:
-            return regions
-        
-        # Sort by start position
-        regions = sorted(regions, key=lambda r: r[0])
-        
-        merged = []
-        current = list(regions[0])
-        
-        for next_region in regions[1:]:
-            gap_samples = next_region[0] - current[1]
-            gap_seconds = gap_samples / sr
-            
-            if gap_seconds <= gap_threshold:
-                # Merge regions
-                current[1] = next_region[1]  # Extend end
-                current[2] = (current[1] - current[0]) / sr  # Update duration
-                current[3] = max(current[3], next_region[3])  # Max severity
-                # Combine frequency masks
-                current[4] = current[4] | next_region[4]
-            else:
-                merged.append(tuple(current))
-                current = list(next_region)
-        
-        merged.append(tuple(current))
-        
-        return merged
-    
-    def _adjust_length(self, audio, target_len):
-        """Adjust audio array to target length."""
-        is_stereo = len(audio.shape) > 1 and audio.shape[1] == 2
-        current_len = audio.shape[0] if is_stereo else len(audio)
-        
-        if current_len == target_len:
-            return audio
-        
-        if is_stereo:
-            if current_len > target_len:
-                return audio[:target_len, :]
-            else:
-                pad_len = target_len - current_len
-                return np.pad(audio, ((0, pad_len), (0, 0)), mode='edge')
-        else:
-            if current_len > target_len:
-                return audio[:target_len]
-            else:
-                return np.pad(audio, (0, target_len - current_len), mode='edge')
-    
-    def _apply_crossfade(self, original, restored, crossfade_samples):
-        """Apply smooth crossfade between original and restored."""
-        is_stereo = len(restored.shape) > 1 and restored.shape[1] == 2
-        
-        # Create smooth crossfade curves (raised cosine)
-        t = np.linspace(0, np.pi, crossfade_samples)
-        fade_in = 0.5 * (1 - np.cos(t))   # 0 -> 1
-        fade_out = 0.5 * (1 + np.cos(t))  # 1 -> 0
-        
-        result = restored.copy()
-        
-        if is_stereo:
-            fade_in_2d = fade_in[:, np.newaxis]
-            fade_out_2d = fade_out[:, np.newaxis]
-            
-            # Fade in at start
-            result[:crossfade_samples, :] = (
-                original[:crossfade_samples, :] * (1 - fade_in_2d) +
-                restored[:crossfade_samples, :] * fade_in_2d
-            )
-            
-            # Fade out at end
-            result[-crossfade_samples:, :] = (
-                restored[-crossfade_samples:, :] * fade_out_2d +
-                original[-crossfade_samples:, :] * (1 - fade_out_2d)
-            )
-        else:
-            # Fade in at start
-            result[:crossfade_samples] = (
-                original[:crossfade_samples] * (1 - fade_in) +
-                restored[:crossfade_samples] * fade_in
-            )
-            
-            # Fade out at end
-            result[-crossfade_samples:] = (
-                restored[-crossfade_samples:] * fade_out +
-                original[-crossfade_samples:] * (1 - fade_out)
-            )
-        
-        return result
-
-
-
-    def cleanup(self):
-        """Release resources."""
-        if self.restorer:
-            self.restorer.cleanup()
-        self._loaded = False
-        torch.cuda.empty_cache()
-        gc.collect()
-
-
-
-class ExtractionWorker(QThread):
-    progress = Signal(str)
-    finished = Signal(str)
-    error = Signal(str)
-    
-    def __init__(self, input_file, output_dir, mode, demucs_model, 
-                 separation_model, separation_method, enable_restoration,
-                 restoration_model, restoration_preset, threshold, max_regions,
-                 shifts, overlap, use_float32, device,
-                 # MusicGen params
-                 musicgen_prompt="", musicgen_model="melody", 
-                 musicgen_preprocess=False, musicgen_temp=1.0): # <--- NEW PARAM
-        
-        super().__init__()
-        self.input_file = input_file
-        self.output_dir = output_dir
-        self.mode = mode
-        self.demucs_model = demucs_model
-        self.separation_model = separation_model
-        self.separation_method = separation_method
-        self.enable_restoration = enable_restoration
-        self.restoration_model = restoration_model
-        self.restoration_preset = restoration_preset
-        self.threshold = threshold
-        self.max_regions = max_regions
-        self.shifts = shifts
-        self.overlap = overlap
-        self.use_float32 = use_float32
-        self.device = device
-        
-        self.musicgen_prompt = musicgen_prompt
-        self.musicgen_model = musicgen_model
-        self.musicgen_preprocess = musicgen_preprocess
-        self.musicgen_temp = musicgen_temp
-
-    def run(self):
-        try:
-            os.makedirs(self.output_dir, exist_ok=True)
-            
-            # --- MUSICGEN MODE ---
-            if self.mode == "musicgen_regen":
-                if not AVAILABLE_MODELS["musicgen"]:
-                    raise Exception("MusicGen not installed.")
-                
-                target_file = self.input_file
-                
-                # 1. PRE-PROCESS (Remove Vocals) if checked
-                if self.musicgen_preprocess:
-                    self.progress.emit("Pre-processing: Removing vocals with Demucs...")
-                    from demucs.pretrained import get_model
-                    from demucs.apply import apply_model
-                    import torchaudio
-                    
-                    model = get_model("htdemucs")
-                    model.to(self.device)
-                    wav, sr = torchaudio.load(self.input_file)
-                    
-                    # Separate
-                    ref = wav.mean(0)
-                    wav = (wav - ref.mean()) / ref.std()
-                    sources = apply_model(model, wav[None], shifts=0, overlap=0.25)[0]
-                    sources = sources * ref.std() + ref.mean()
-                    
-                    # Sum everything EXCEPT vocals (index 3)
-                    no_vocals = sources[0] + sources[1] + sources[2] 
-                    
-                    # Save temp instrumental
-                    temp_inst_path = os.path.join(self.output_dir, "temp_instrumental_input.wav")
-                    torchaudio.save(temp_inst_path, no_vocals.cpu(), sr)
-                    
-                    target_file = temp_inst_path
-                    self.progress.emit("Vocals removed. Initializing MusicGen...")
-
-                # 2. RUN MUSICGEN
-                mg = MusicGenRegenerator(device=self.device)
-                self.progress.emit(f"Loading MusicGen model: {self.musicgen_model}...")
-                mg.load_model(self.musicgen_model)
-                
-                out_file = os.path.join(self.output_dir, "regenerated_song.wav")
-                prompt = self.musicgen_prompt if self.musicgen_prompt.strip() else "high quality instrumental song"
-                
-                mg.regenerate(
-                    target_file, 
-                    out_file, 
-                    prompt=prompt,
-                    temperature=self.musicgen_temp, # <--- Pass the temp
-                    progress_callback=self.progress.emit
-                )
-                
-                # Clean up temp file
-                if self.musicgen_preprocess and os.path.exists(target_file) and target_file != self.input_file:
-                    try:
-                        os.remove(target_file)
-                    except:
-                        pass
-                
-                self.finished.emit(self.output_dir)
-                return
-
-            # --- STANDARD SEPARATION MODES ---
-            if self.mode == "full_stems":
-                self.progress.emit("Starting Demucs...")
-                from demucs.pretrained import get_model
-                from demucs.apply import apply_model
-                import torchaudio
-                
-                model = get_model(self.demucs_model)
-                model.to(self.device)
-                wav, sr = torchaudio.load(self.input_file)
-                
-                ref = wav.mean(0)
-                wav = (wav - ref.mean()) / ref.std()
-                sources = apply_model(model, wav[None], shifts=self.shifts, overlap=self.overlap)[0]
-                sources = sources * ref.std() + ref.mean()
-                
-                for source, name in zip(sources, model.sources):
-                    torchaudio.save(os.path.join(self.output_dir, f"{name}.wav"), source.cpu(), sr)
-
-            elif self.mode in ["vocals_only", "instrument_hq"]:
-                self.progress.emit("Starting UVR Separation...")
-                sep = UVRSeparator(self.output_dir, self.device)
-                
-                # ← FIX: CAPTURE THE RETURN VALUES
-                vocals_path, instrumental_path = sep.separate_single(
-                    self.input_file, 
-                    self.separation_model, 
-                    progress_callback=self.progress.emit
-                )
-                
-                # ← FIX: COPY FILES TO OUTPUT DIR BEFORE CLEANUP
-                if vocals_path and os.path.exists(vocals_path):
-                    final_vocals = os.path.join(self.output_dir, "vocals.wav")
-                    shutil.copy2(vocals_path, final_vocals)
-                    self.progress.emit(f"✅ Saved: vocals.wav")
-                
-                if instrumental_path and os.path.exists(instrumental_path):
-                    final_inst = os.path.join(self.output_dir, "instrumental.wav")
-                    shutil.copy2(instrumental_path, final_inst)
-                    self.progress.emit(f"✅ Saved: instrumental.wav")
-                
-                sep.cleanup()  # Now safe to cleanup temp files
-
-            self.finished.emit(self.output_dir)
-
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            self.error.emit(str(e))
-
-
 
 
 
@@ -2318,13 +686,641 @@ class MusicGenRegenerator:
 
 
 
+class LinkwitzRileyCrossover:
+    """
+    Phase-aligned frequency band splitter using Linkwitz-Riley crossover filters.
+    
+    When bands are summed, they reconstruct the original signal perfectly.
+    This is critical for preventing artifacts at crossover frequencies.
+    """
+    
+    def __init__(self, sample_rate=44100):
+        self.sample_rate = sample_rate
+    
+    def split_bands(self, audio, low_freq=200, high_freq=4000, order=4):
+        """
+        Split audio into low, mid, high frequency bands.
+        
+        Args:
+            audio: numpy array (samples,) or (samples, 2)
+            low_freq: crossover frequency between low and mid (Hz)
+            high_freq: crossover frequency between mid and high (Hz)
+            order: filter order (higher = steeper rolloff)
+            
+        Returns:
+            low, mid, high: numpy arrays of same shape as input
+        """
+        from scipy.signal import butter, sosfiltfilt
+        
+        is_stereo = len(audio.shape) > 1 and audio.shape[1] == 2
+        
+        if is_stereo:
+            low_l, mid_l, high_l = self._split_mono(audio[:, 0], low_freq, high_freq, order)
+            low_r, mid_r, high_r = self._split_mono(audio[:, 1], low_freq, high_freq, order)
+            
+            low = np.stack([low_l, low_r], axis=1)
+            mid = np.stack([mid_l, mid_r], axis=1)
+            high = np.stack([high_l, high_r], axis=1)
+        else:
+            audio_mono = audio.flatten() if len(audio.shape) > 1 else audio
+            low, mid, high = self._split_mono(audio_mono, low_freq, high_freq, order)
+        
+        return low.astype(np.float32), mid.astype(np.float32), high.astype(np.float32)
+    
+    def _split_mono(self, audio, low_freq, high_freq, order):
+        """Split mono audio into three bands."""
+        from scipy.signal import butter, sosfiltfilt
+        
+        nyquist = self.sample_rate / 2
+        
+        # Clamp frequencies to valid range
+        low_freq = min(low_freq, nyquist * 0.95)
+        high_freq = min(high_freq, nyquist * 0.95)
+        high_freq = max(high_freq, low_freq * 1.1)  # Ensure high > low
+        
+        # Design Linkwitz-Riley filters (cascaded Butterworth)
+        # LR filters are created by cascading two Butterworth filters
+        
+        # Low-pass at low_freq
+        sos_lp_low = butter(order // 2, low_freq, btype='low', fs=self.sample_rate, output='sos')
+        
+        # High-pass at low_freq (for mid and high)
+        sos_hp_low = butter(order // 2, low_freq, btype='high', fs=self.sample_rate, output='sos')
+        
+        # Low-pass at high_freq (for mid)
+        sos_lp_high = butter(order // 2, high_freq, btype='low', fs=self.sample_rate, output='sos')
+        
+        # High-pass at high_freq (for high)
+        sos_hp_high = butter(order // 2, high_freq, btype='high', fs=self.sample_rate, output='sos')
+        
+        # Apply filters with zero-phase (forward-backward)
+        # Low band: cascade two low-pass filters
+        low = sosfiltfilt(sos_lp_low, audio)
+        low = sosfiltfilt(sos_lp_low, low)  # Second pass for LR4
+        
+        # High band: cascade two high-pass filters
+        high = sosfiltfilt(sos_hp_high, audio)
+        high = sosfiltfilt(sos_hp_high, high)  # Second pass for LR4
+        
+        # Mid band: high-pass at low_freq, then low-pass at high_freq
+        mid = sosfiltfilt(sos_hp_low, audio)
+        mid = sosfiltfilt(sos_hp_low, mid)  # LR4 high-pass
+        mid = sosfiltfilt(sos_lp_high, mid)
+        mid = sosfiltfilt(sos_lp_high, mid)  # LR4 low-pass
+        
+        # Verify reconstruction (for debugging)
+        # reconstruction = low + mid + high
+        # error = np.max(np.abs(audio - reconstruction))
+        # Should be very small (< 1e-6)
+        
+        return low, mid, high
+    
+    def validate_reconstruction(self, original, low, mid, high):
+        """Verify that bands sum back to original."""
+        reconstruction = low + mid + high
+        error = np.max(np.abs(original - reconstruction))
+        energy_error = np.sum((original - reconstruction) ** 2) / (np.sum(original ** 2) + 1e-10)
+        
+        return {
+            'max_error': error,
+            'energy_error': energy_error,
+            'is_valid': error < 0.01  # Should be essentially zero
+        }
 
 
+class ExtractionWorker(QThread):
+    progress = Signal(str)
+    finished = Signal(str)
+    error = Signal(str)
+    
+    def __init__(self, input_file, output_dir, mode, demucs_model, 
+                 separation_model, separation_method, enable_restoration,
+                 restoration_model, restoration_preset, threshold, max_regions,
+                 shifts, overlap, use_float32, device,
+                 # MusicGen params
+                 musicgen_prompt="", musicgen_model="melody", 
+                 musicgen_preprocess=False, musicgen_temp=1.0,
+                 # Honest separation params
+                 stem_grouping="extended_6",
+                 low_freq=250, high_freq=6000,
+                 # Preset params
+                 quality_preset=None,
+                 frequency_preset=None):
+        
+        super().__init__()
+        self.input_file = input_file
+        self.output_dir = output_dir
+        self.mode = mode
+        self.demucs_model = demucs_model
+        self.separation_model = separation_model
+        self.separation_method = separation_method
+        self.enable_restoration = enable_restoration
+        self.restoration_model = restoration_model
+        self.restoration_preset = restoration_preset
+        self.threshold = threshold
+        self.max_regions = max_regions
+        self.use_float32 = use_float32
+        self.device = device
+        
+        self.musicgen_prompt = musicgen_prompt
+        self.musicgen_model = musicgen_model
+        self.musicgen_preprocess = musicgen_preprocess
+        self.musicgen_temp = musicgen_temp
+        
+        # Honest separation params
+        self.stem_grouping = stem_grouping
+        
+        # Handle quality preset - OVERRIDE manual values if preset is selected
+        if quality_preset and quality_preset in DEMUCS_QUALITY_PRESETS:
+            preset = DEMUCS_QUALITY_PRESETS[quality_preset]
+            self.shifts = preset["shifts"]
+            self.overlap = preset["overlap"]
+            self.quality_preset = quality_preset
+        else:
+            self.shifts = shifts
+            self.overlap = overlap
+            self.quality_preset = None
+        
+        # Handle frequency preset - OVERRIDE manual values if preset is selected
+        if frequency_preset:
+            freq_preset = None
+            for preset_dict in [FREQUENCY_PRESETS_GENRE, FREQUENCY_PRESETS_TECHNICAL, FREQUENCY_PRESETS_INSTRUMENT]:
+                if frequency_preset in preset_dict:
+                    freq_preset = preset_dict[frequency_preset]
+                    break
+            
+            if freq_preset:
+                self.low_freq = freq_preset["low_freq"]
+                self.high_freq = freq_preset["high_freq"]
+                self.frequency_preset = frequency_preset
+            else:
+                self.low_freq = low_freq
+                self.high_freq = high_freq
+                self.frequency_preset = None
+        else:
+            self.low_freq = low_freq
+            self.high_freq = high_freq
+            self.frequency_preset = None
+
+    def run(self):
+        try:
+            os.makedirs(self.output_dir, exist_ok=True)
+            
+            # =====================================================================
+            # HONEST STEMS MODE
+            # =====================================================================
+            if self.mode == "honest_stems":
+                self.progress.emit("Initializing honest stem separator...")
+                
+                # Log the settings being used
+                if self.quality_preset:
+                    preset = DEMUCS_QUALITY_PRESETS[self.quality_preset]
+                    self.progress.emit(f"Quality preset: {preset['name']} (shifts={self.shifts}, overlap={self.overlap:.0%})")
+                else:
+                    self.progress.emit(f"Custom quality: shifts={self.shifts}, overlap={self.overlap:.0%}")
+                
+                if self.frequency_preset:
+                    self.progress.emit(f"Frequency preset: {self.frequency_preset} (low={self.low_freq}Hz, high={self.high_freq}Hz)")
+                else:
+                    self.progress.emit(f"Custom frequencies: low={self.low_freq}Hz, high={self.high_freq}Hz")
+                
+                separator = HonestStemSeparator(self.output_dir, self.device)
+                
+                try:
+                    # Pass the resolved values directly (presets already applied in __init__)
+                    stems, sr = separator.separate(
+                        self.input_file,
+                        grouping=self.stem_grouping,
+                        low_freq=self.low_freq,
+                        high_freq=self.high_freq,
+                        demucs_model=self.demucs_model,
+                        shifts=self.shifts,
+                        overlap=self.overlap,
+                        # Don't pass presets here - already resolved above
+                        quality_preset=None,
+                        frequency_preset=None,
+                        progress_callback=self.progress.emit
+                    )
+                    
+                    # Save stems
+                    for stem_name, stem_audio in stems.items():
+                        output_path = os.path.join(self.output_dir, f"{stem_name}.wav")
+                        sf.write(output_path, stem_audio, sr)
+                        self.progress.emit(f"✅ Saved: {stem_name}.wav")
+                    
+                    self.progress.emit("✅ All stems saved!")
+                    
+                finally:
+                    separator.cleanup()
+                
+                self.finished.emit(self.output_dir)
+                return
+            
+            # =====================================================================
+            # MUSICGEN MODE
+            # =====================================================================
+            if self.mode == "musicgen_regen":
+                if not AVAILABLE_MODELS.get("musicgen", False):
+                    raise Exception("MusicGen not installed.")
+                
+                target_file = self.input_file
+                
+                if self.musicgen_preprocess:
+                    self.progress.emit("Pre-processing: Removing vocals with Demucs...")
+                    
+                    model = get_model("htdemucs")
+                    model.to(self.device)
+                    wav, sr = torchaudio.load(self.input_file)
+                    
+                    ref = wav.mean(0)
+                    wav = (wav - ref.mean()) / ref.std()
+                    sources = apply_model(model, wav[None], shifts=0, overlap=0.25)[0]
+                    sources = sources * ref.std() + ref.mean()
+                    
+                    no_vocals = sources[0] + sources[1] + sources[2]
+                    
+                    temp_inst_path = os.path.join(self.output_dir, "temp_instrumental_input.wav")
+                    torchaudio.save(temp_inst_path, no_vocals.cpu(), sr)
+                    
+                    target_file = temp_inst_path
+                    self.progress.emit("Vocals removed. Initializing MusicGen...")
+                    
+                    del model
+                    torch.cuda.empty_cache()
+
+                mg = MusicGenRegenerator(device=self.device)
+                self.progress.emit(f"Loading MusicGen model: {self.musicgen_model}...")
+                mg.load_model(self.musicgen_model)
+                
+                out_file = os.path.join(self.output_dir, "regenerated_song.wav")
+                prompt = self.musicgen_prompt if self.musicgen_prompt.strip() else "high quality instrumental song"
+                
+                mg.regenerate(
+                    target_file, 
+                    out_file, 
+                    prompt=prompt,
+                    temperature=self.musicgen_temp,
+                    progress_callback=self.progress.emit
+                )
+                
+                if self.musicgen_preprocess and os.path.exists(target_file) and target_file != self.input_file:
+                    try:
+                        os.remove(target_file)
+                    except:
+                        pass
+                
+                self.finished.emit(self.output_dir)
+                return
+
+            # =====================================================================
+            # FULL STEMS MODE (Demucs only)
+            # =====================================================================
+            if self.mode == "full_stems":
+                self.progress.emit(f"Starting Demucs (shifts={self.shifts}, overlap={self.overlap:.0%})...")
+                
+                model = get_model(self.demucs_model)
+                model.to(self.device)
+                wav, sr = torchaudio.load(self.input_file)
+                
+                ref = wav.mean(0)
+                wav = (wav - ref.mean()) / ref.std()
+                sources = apply_model(model, wav[None], shifts=self.shifts, overlap=self.overlap)[0]
+                sources = sources * ref.std() + ref.mean()
+                
+                for source, name in zip(sources, model.sources):
+                    output_path = os.path.join(self.output_dir, f"{name}.wav")
+                    torchaudio.save(output_path, source.cpu(), sr)
+                    self.progress.emit(f"✅ Saved: {name}.wav")
+                
+                del model
+                torch.cuda.empty_cache()
+                
+                self.finished.emit(self.output_dir)
+                return
+
+            # =====================================================================
+            # VOCALS ONLY / INSTRUMENT HQ MODE (UVR)
+            # =====================================================================
+            if self.mode in ["vocals_only", "instrument_hq"]:
+                self.progress.emit("Starting UVR Separation...")
+                sep = UVRSeparator(self.output_dir, self.device)
+                
+                vocals_path, instrumental_path = sep.separate_single(
+                    self.input_file, 
+                    self.separation_model, 
+                    progress_callback=self.progress.emit
+                )
+                
+                if vocals_path and os.path.exists(vocals_path):
+                    final_vocals = os.path.join(self.output_dir, "vocals.wav")
+                    shutil.copy2(vocals_path, final_vocals)
+                    self.progress.emit(f"✅ Saved: vocals.wav")
+                
+                if instrumental_path and os.path.exists(instrumental_path):
+                    final_inst = os.path.join(self.output_dir, "instrumental.wav")
+                    shutil.copy2(instrumental_path, final_inst)
+                    self.progress.emit(f"✅ Saved: instrumental.wav")
+                
+                sep.cleanup()
+                
+                self.finished.emit(self.output_dir)
+                return
+
+            self.error.emit(f"Unknown mode: {self.mode}")
+
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            self.error.emit(str(e))
 
 
-
-
-
+class HonestStemSeparator:
+    """
+    Honest stem separation that uses the right tool for each job.
+    Now with preset support for quality and frequency settings.
+    """
+    
+    GROUPINGS = {
+        "demucs_4": {
+            "description": "Standard 4 stems from Demucs",
+            "stems": ["vocals", "drums", "bass", "other"],
+        },
+        "extended_6": {
+            "description": "4 Demucs stems + other split by frequency",
+            "stems": ["vocals", "drums", "bass", "other_low", "other_mid", "other_high"],
+        },
+        "music_focus": {
+            "description": "Vocals, rhythm (drums+bass), and melodic content by frequency",
+            "stems": ["vocals", "rhythm", "melody_low", "melody_mid", "melody_high"],
+        },
+    }
+    
+    def __init__(self, output_dir, device=None):
+        self.output_dir = output_dir
+        self.device = device or ('cuda' if torch.cuda.is_available() else 'cpu')
+        self.demucs_model = None
+        self.demucs_model_name = None
+        self.crossover = LinkwitzRileyCrossover()
+    
+    def separate(self, audio_path, grouping="extended_6",
+                 low_freq=None, high_freq=None,
+                 demucs_model="htdemucs", shifts=2, overlap=0.25,
+                 quality_preset=None, frequency_preset=None,
+                 progress_callback=None):
+        """
+        Perform honest stem separation.
+        
+        Args:
+            audio_path: path to input audio
+            grouping: output grouping preset
+            low_freq: low/mid crossover (overridden by frequency_preset)
+            high_freq: mid/high crossover (overridden by frequency_preset)
+            demucs_model: which Demucs model to use
+            shifts: Demucs shifts (overridden by quality_preset)
+            overlap: Demucs overlap (overridden by quality_preset)
+            quality_preset: key from DEMUCS_QUALITY_PRESETS
+            frequency_preset: key from FREQUENCY_PRESETS_* dicts
+            
+        Returns:
+            dict of stem_name -> audio numpy array, sample_rate
+        """
+        
+        # Apply quality preset if specified
+        if quality_preset and quality_preset in DEMUCS_QUALITY_PRESETS:
+            preset = DEMUCS_QUALITY_PRESETS[quality_preset]
+            shifts = preset["shifts"]
+            overlap = preset["overlap"]
+            if progress_callback:
+                progress_callback(f"Using quality preset: {preset['name']}")
+        
+        # Apply frequency preset if specified
+        if frequency_preset:
+            # Check all frequency preset dictionaries
+            freq_preset = None
+            for preset_dict in [FREQUENCY_PRESETS_GENRE, FREQUENCY_PRESETS_TECHNICAL, FREQUENCY_PRESETS_INSTRUMENT]:
+                if frequency_preset in preset_dict:
+                    freq_preset = preset_dict[frequency_preset]
+                    break
+            
+            if freq_preset:
+                low_freq = freq_preset["low_freq"]
+                high_freq = freq_preset["high_freq"]
+                if progress_callback:
+                    progress_callback(f"Using frequency preset: {freq_preset['name']}")
+        
+        # Default frequencies if not set
+        low_freq = low_freq or 250
+        high_freq = high_freq or 6000
+        
+        if progress_callback:
+            progress_callback(f"Settings: shifts={shifts}, overlap={overlap:.0%}, low={low_freq}Hz, high={high_freq}Hz")
+        
+        # Validate
+        if not os.path.exists(audio_path):
+            raise FileNotFoundError(f"Audio file not found: {audio_path}")
+        
+        # =====================================================================
+        # Stage 1: Demucs separation
+        # =====================================================================
+        if progress_callback:
+            progress_callback("Stage 1: Running Demucs separation...")
+        
+        demucs_stems, sr = self._run_demucs(
+            audio_path, demucs_model, shifts, overlap, progress_callback
+        )
+        
+        if progress_callback:
+            progress_callback(f"Demucs complete. Got {len(demucs_stems)} stems.")
+        
+        # =====================================================================
+        # Stage 2: Frequency split on "other" (if requested)
+        # =====================================================================
+        other_low = None
+        other_mid = None
+        other_high = None
+        
+        if grouping in ["extended_6", "music_focus"]:
+            if progress_callback:
+                progress_callback(f"Stage 2: Splitting 'other' at {low_freq}Hz and {high_freq}Hz...")
+            
+            self.crossover.sample_rate = sr
+            
+            other_low, other_mid, other_high = self.crossover.split_bands(
+                demucs_stems["other"],
+                low_freq=low_freq,
+                high_freq=high_freq
+            )
+            
+            # Validate split
+            validation = self.crossover.validate_reconstruction(
+                demucs_stems["other"], other_low, other_mid, other_high
+            )
+            
+            if validation['is_valid']:
+                if progress_callback:
+                    progress_callback(f"✅ Frequency split verified (error: {validation['energy_error']:.6f})")
+            else:
+                logger.warning(f"Crossover validation: {validation}")
+        
+        # =====================================================================
+        # Stage 3: Build output based on grouping
+        # =====================================================================
+        if progress_callback:
+            progress_callback("Stage 3: Building final stems...")
+        
+        if grouping == "demucs_4":
+            final_stems = {
+                "vocals": demucs_stems["vocals"],
+                "drums": demucs_stems["drums"],
+                "bass": demucs_stems["bass"],
+                "other": demucs_stems["other"],
+            }
+        
+        elif grouping == "extended_6":
+            final_stems = {
+                "vocals": demucs_stems["vocals"],
+                "drums": demucs_stems["drums"],
+                "bass": demucs_stems["bass"],
+                "other_low": other_low,
+                "other_mid": other_mid,
+                "other_high": other_high,
+            }
+        
+        elif grouping == "music_focus":
+            rhythm = self._safe_add(demucs_stems["drums"], demucs_stems["bass"])
+            
+            final_stems = {
+                "vocals": demucs_stems["vocals"],
+                "rhythm": rhythm,
+                "melody_low": other_low,
+                "melody_mid": other_mid,
+                "melody_high": other_high,
+            }
+        
+        else:
+            final_stems = demucs_stems
+        
+        # =====================================================================
+        # Verification
+        # =====================================================================
+        if progress_callback:
+            progress_callback("Verifying separation...")
+        
+        original, _ = sf.read(audio_path)
+        self._verify_stems(original, final_stems, demucs_stems, grouping, progress_callback)
+        
+        if progress_callback:
+            progress_callback("✅ Separation complete!")
+        
+        return final_stems, sr
+    
+    def _run_demucs(self, audio_path, model_name, shifts, overlap, progress_callback):
+        """Run Demucs separation."""
+        # Load model (cache if same model)
+        if self.demucs_model is None or self.demucs_model_name != model_name:
+            if progress_callback:
+                progress_callback(f"Loading Demucs model: {model_name}...")
+            
+            self.demucs_model = get_model(model_name)
+            self.demucs_model.to(self.device)
+            self.demucs_model_name = model_name
+        
+        # Load audio
+        if progress_callback:
+            progress_callback("Loading audio file...")
+        
+        wav, sr = torchaudio.load(audio_path)
+        
+        logger.info(f"Loaded audio: shape={wav.shape}, sr={sr}")
+        
+        # Normalize
+        ref = wav.mean(0)
+        wav_norm = (wav - ref.mean()) / (ref.std() + 1e-8)
+        
+        # Run separation
+        if progress_callback:
+            progress_callback(f"Separating (shifts={shifts}, overlap={overlap:.0%})...")
+        
+        with torch.no_grad():
+            sources = apply_model(
+                self.demucs_model,
+                wav_norm[None].to(self.device),
+                shifts=shifts,
+                overlap=overlap
+            )[0]
+        
+        # Denormalize
+        sources = sources * ref.std() + ref.mean()
+        
+        # Convert to numpy: (num_sources, channels, samples) -> (samples, channels)
+        stems = {}
+        source_names = self.demucs_model.sources
+        
+        for i, name in enumerate(source_names):
+            source = sources[i].cpu().numpy()
+            source = source.T  # (C, N) -> (N, C)
+            stems[name] = source.astype(np.float32)
+            logger.debug(f"Stem '{name}': shape={stems[name].shape}")
+        
+        return stems, sr
+    
+    def _safe_add(self, audio1, audio2):
+        """Safely add two audio arrays."""
+        min_len = min(len(audio1), len(audio2))
+        
+        is_stereo_1 = len(audio1.shape) > 1 and audio1.shape[1] == 2
+        is_stereo_2 = len(audio2.shape) > 1 and audio2.shape[1] == 2
+        
+        if is_stereo_1 and is_stereo_2:
+            return (audio1[:min_len, :] + audio2[:min_len, :]).astype(np.float32)
+        elif is_stereo_1:
+            a2 = np.stack([audio2[:min_len], audio2[:min_len]], axis=1) if len(audio2.shape) == 1 else audio2[:min_len]
+            return (audio1[:min_len, :] + a2).astype(np.float32)
+        elif is_stereo_2:
+            a1 = np.stack([audio1[:min_len], audio1[:min_len]], axis=1) if len(audio1.shape) == 1 else audio1[:min_len]
+            return (a1 + audio2[:min_len, :]).astype(np.float32)
+        else:
+            return (audio1[:min_len] + audio2[:min_len]).astype(np.float32)
+    
+    def _verify_stems(self, original, final_stems, demucs_stems, grouping, progress_callback):
+        """Verify separation quality."""
+        demucs_sum = None
+        for name in ["vocals", "drums", "bass", "other"]:
+            if name in demucs_stems:
+                if demucs_sum is None:
+                    demucs_sum = demucs_stems[name].copy()
+                else:
+                    demucs_sum = self._safe_add(demucs_sum, demucs_stems[name])
+        
+        if demucs_sum is not None:
+            min_len = min(len(original), len(demucs_sum))
+            
+            if len(original.shape) > 1:
+                orig_energy = np.sum(original[:min_len] ** 2)
+                diff_energy = np.sum((original[:min_len] - demucs_sum[:min_len]) ** 2)
+            else:
+                orig_energy = np.sum(original[:min_len] ** 2)
+                demucs_mono = np.mean(demucs_sum[:min_len], axis=1) if len(demucs_sum.shape) > 1 else demucs_sum[:min_len]
+                diff_energy = np.sum((original[:min_len] - demucs_mono) ** 2)
+            
+            error_ratio = diff_energy / (orig_energy + 1e-10)
+            
+            if progress_callback:
+                if error_ratio < 0.01:
+                    progress_callback(f"✅ Reconstruction verified (error: {error_ratio:.4%})")
+                else:
+                    progress_callback(f"⚠️ Reconstruction error: {error_ratio:.4%}")
+    
+    def cleanup(self):
+        """Release resources."""
+        if self.demucs_model is not None:
+            del self.demucs_model
+            self.demucs_model = None
+            self.demucs_model_name = None
+        
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        gc.collect()
 
 
 
@@ -2332,9 +1328,9 @@ class MusicGenRegenerator:
 class StemSeparatorApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("AI Stem Separator - High Quality")
-        self.setGeometry(100, 100, 520, 750)
-        self.setMinimumWidth(420)
+        self.setWindowTitle("AI Stem Separator - Honest Edition")
+        self.setGeometry(100, 100, 600, 950)
+        self.setMinimumWidth(500)
         
         self.worker_thread = None
 
@@ -2348,286 +1344,387 @@ class StemSeparatorApp(QMainWindow):
         layout.setSpacing(10)
         layout.setContentsMargins(10, 10, 10, 10)
         
-        # Status
+        # =================================================================
+        # STATUS LABEL
+        # =================================================================
         self.status_label = QLabel("Drag & drop or browse for an audio file.")
         layout.addWidget(self.status_label)
         
         # Model availability warnings
         self._add_availability_warnings(layout)
         
-        # Drop Zone
+        # =================================================================
+        # DROP ZONE
+        # =================================================================
         self.drop_zone = DropZone()
         self.drop_zone.file_dropped.connect(self.handle_dropped_file)
         layout.addWidget(self.drop_zone)
         
-        # File
-        file_group = QGroupBox("File")
+        # =================================================================
+        # FILE SELECTION
+        # =================================================================
+        file_group = QGroupBox("📁 File")
         file_layout = QVBoxLayout(file_group)
         self.file_input = QLineEdit()
         self.file_input.setReadOnly(True)
         file_layout.addWidget(self.file_input)
-        self.browse_btn = QPushButton("Browse")
+        self.browse_btn = QPushButton("Browse...")
         self.browse_btn.clicked.connect(self.browse_file)
         file_layout.addWidget(self.browse_btn)
         layout.addWidget(file_group)
 
-        # Mode
+        # =================================================================
+        # MODE SELECTION
+        # =================================================================
         mode_group = QGroupBox("🎯 Mode")
         mode_layout = QVBoxLayout(mode_group)
         self.mode_group = QButtonGroup(self)
         
         modes = [
-            ("🎤 Vocals Only", "vocals_only", False),
-            ("🎸 High-Quality Instrumental", "instrument_hq", True),
-            ("🎹 Full Stems (Demucs)", "full_stems", False),
-            ("🤖 MusicGen Re-creation", "musicgen_regen", False) # <--- ADD THIS LINE
+            ("🎤 Vocals Only (UVR)", "vocals_only", False),
+            ("🎸 High-Quality Instrumental (UVR)", "instrument_hq", False),
+            ("🎹 Full Stems - Demucs 4", "full_stems", False),
+            ("🎼 Honest Stems (RECOMMENDED)", "honest_stems", True),
+            ("🤖 MusicGen Re-creation", "musicgen_regen", False),
         ]
         
         for text, mode, checked in modes:
             radio = QRadioButton(text)
             radio.mode = mode
             radio.setChecked(checked)
-            radio.toggled.connect(self._on_mode_changed)
             self.mode_group.addButton(radio)
             mode_layout.addWidget(radio)
         
         layout.addWidget(mode_group)
 
-        # Separation Settings
-        sep_group = QGroupBox("🎵 Separation Settings")
-        sep_layout = QVBoxLayout(sep_group)
+        # =================================================================
+        # HONEST SEPARATION SETTINGS
+        # =================================================================
+        self.honest_group = QGroupBox("🎼 Honest Separation Settings")
+        honest_layout = QVBoxLayout(self.honest_group)
+        honest_layout.setSpacing(8)
+        
+        # Description
+        desc_label = QLabel(
+            "Uses Demucs for vocals/drums/bass/other, then optionally splits 'other' by frequency."
+        )
+        desc_label.setWordWrap(True)
+        desc_label.setStyleSheet("color: #666; font-size: 11px;")
+        honest_layout.addWidget(desc_label)
+        
+        # Output grouping
+        grouping_layout = QHBoxLayout()
+        grouping_label = QLabel("Output:")
+        grouping_label.setFixedWidth(80)
+        grouping_layout.addWidget(grouping_label)
+        
+        self.honest_grouping_combo = QComboBox()
+        self.honest_grouping_combo.addItem("Demucs 4 (vocals/drums/bass/other)", "demucs_4")
+        self.honest_grouping_combo.addItem("Extended 6 (+ other split by freq)", "extended_6")
+        self.honest_grouping_combo.addItem("Music Focus (vocals/rhythm/melody×3)", "music_focus")
+        self.honest_grouping_combo.setCurrentIndex(1)
+        self.honest_grouping_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        grouping_layout.addWidget(self.honest_grouping_combo)
+        honest_layout.addLayout(grouping_layout)
+        
+        # Grouping info
+        self.honest_grouping_info = QLabel("")
+        self.honest_grouping_info.setWordWrap(True)
+        self.honest_grouping_info.setStyleSheet(
+            "color: #007bff; font-size: 10px; padding: 5px; "
+            "background-color: #f0f8ff; border-radius: 4px;"
+        )
+        honest_layout.addWidget(self.honest_grouping_info)
+        
+        # ─────────────────────────────────────────────────────────────────
+        # QUALITY PRESET
+        # ─────────────────────────────────────────────────────────────────
+        quality_group = QGroupBox("⚡ Quality Preset")
+        quality_layout = QVBoxLayout(quality_group)
+        quality_layout.setSpacing(5)
+        
+        self.quality_preset_combo = QComboBox()
+        self.quality_preset_combo.addItem("✏️ Custom (manual settings)", "custom")
+        for preset_id, preset in DEMUCS_QUALITY_PRESETS.items():
+            self.quality_preset_combo.addItem(
+                f"{preset['name']} - {preset['time_estimate']}", 
+                preset_id
+            )
+        self.quality_preset_combo.setCurrentIndex(2)  # Default to "Fast"
+        quality_layout.addWidget(self.quality_preset_combo)
+        
+        self.quality_preset_info = QLabel("")
+        self.quality_preset_info.setWordWrap(True)
+        self.quality_preset_info.setStyleSheet("color: #666; font-size: 10px;")
+        quality_layout.addWidget(self.quality_preset_info)
+        
+        honest_layout.addWidget(quality_group)
+        
+        # ─────────────────────────────────────────────────────────────────
+        # FREQUENCY PRESET
+        # ─────────────────────────────────────────────────────────────────
+        self.freq_preset_group = QGroupBox("🎚️ Frequency Preset (for 'other' splitting)")
+        freq_preset_layout = QVBoxLayout(self.freq_preset_group)
+        freq_preset_layout.setSpacing(5)
+        
+        # Category selection
+        freq_cat_layout = QHBoxLayout()
+        freq_cat_layout.addWidget(QLabel("Category:"))
+        self.freq_category_combo = QComboBox()
+        self.freq_category_combo.addItem("🎵 By Genre", "genre")
+        self.freq_category_combo.addItem("🎹 By Instrument", "instrument")
+        self.freq_category_combo.addItem("📊 Technical", "technical")
+        self.freq_category_combo.addItem("✏️ Custom", "custom")
+        freq_cat_layout.addWidget(self.freq_category_combo)
+        freq_preset_layout.addLayout(freq_cat_layout)
+        
+        # Preset selection
+        self.freq_preset_combo = QComboBox()
+        freq_preset_layout.addWidget(self.freq_preset_combo)
+        
+        # Preset info
+        self.freq_preset_info = QLabel("")
+        self.freq_preset_info.setWordWrap(True)
+        self.freq_preset_info.setStyleSheet("color: #666; font-size: 10px; padding: 5px;")
+        freq_preset_layout.addWidget(self.freq_preset_info)
+        
+        # Manual frequency controls
+        self.freq_manual_widget = QWidget()
+        freq_manual_layout = QVBoxLayout(self.freq_manual_widget)
+        freq_manual_layout.setContentsMargins(0, 5, 0, 0)
+        
+        low_freq_layout = QHBoxLayout()
+        low_freq_layout.addWidget(QLabel("Low/Mid split:"))
+        self.honest_low_freq_spin = QSpinBox()
+        self.honest_low_freq_spin.setRange(50, 500)
+        self.honest_low_freq_spin.setValue(250)
+        self.honest_low_freq_spin.setSuffix(" Hz")
+        self.honest_low_freq_spin.setFixedWidth(100)
+        low_freq_layout.addWidget(self.honest_low_freq_spin)
+        low_freq_layout.addStretch()
+        freq_manual_layout.addLayout(low_freq_layout)
+        
+        high_freq_layout = QHBoxLayout()
+        high_freq_layout.addWidget(QLabel("Mid/High split:"))
+        self.honest_high_freq_spin = QSpinBox()
+        self.honest_high_freq_spin.setRange(2000, 12000)
+        self.honest_high_freq_spin.setValue(6000)
+        self.honest_high_freq_spin.setSuffix(" Hz")
+        self.honest_high_freq_spin.setFixedWidth(100)
+        high_freq_layout.addWidget(self.honest_high_freq_spin)
+        high_freq_layout.addStretch()
+        freq_manual_layout.addLayout(high_freq_layout)
+        
+        freq_preset_layout.addWidget(self.freq_manual_widget)
+        honest_layout.addWidget(self.freq_preset_group)
+        
+        layout.addWidget(self.honest_group)
+
+        # =================================================================
+        # UVR SEPARATION SETTINGS
+        # =================================================================
+        self.sep_group = QGroupBox("🎵 UVR Separation Settings")
+        sep_layout = QVBoxLayout(self.sep_group)
         sep_layout.setSpacing(8)
 
         method_layout = QHBoxLayout()
-        method_label = QLabel("Method:")
-        method_label.setFixedWidth(80)
-        method_layout.addWidget(method_label)
+        method_layout.addWidget(QLabel("Method:"))
         self.method_combo = QComboBox()
         self.method_combo.addItem("UVR Single Model (Fast)", "uvr_single")
         self.method_combo.addItem("UVR Ensemble (Best)", "uvr_ensemble")
-        self.method_combo.setCurrentIndex(0)
         self.method_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         method_layout.addWidget(self.method_combo)
         sep_layout.addLayout(method_layout)
 
         model_layout = QHBoxLayout()
-        model_label = QLabel("Model:")
-        model_label.setFixedWidth(80)
-        model_layout.addWidget(model_label)
+        model_layout.addWidget(QLabel("Model:"))
         self.sep_model_combo = QComboBox()
         for model_id, model_name in UVRSeparator.INSTRUMENTAL_MODELS:
             self.sep_model_combo.addItem(model_name, model_id)
-        self.sep_model_combo.setCurrentIndex(0)
         self.sep_model_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         model_layout.addWidget(self.sep_model_combo)
         sep_layout.addLayout(model_layout)
 
-        layout.addWidget(sep_group)
+        layout.addWidget(self.sep_group)
 
-        # Restoration Settings
+        # =================================================================
+        # RESTORATION SETTINGS
+        # =================================================================
         self.restore_group = QGroupBox("🔧 AI Restoration")
         self.restore_group.setCheckable(True)
-        self.restore_group.setChecked(True)
+        self.restore_group.setChecked(False)
         restore_layout = QVBoxLayout(self.restore_group)
         restore_layout.setSpacing(8)
 
-        # Restoration model dropdown
         restore_model_layout = QHBoxLayout()
-        restore_model_label = QLabel("Model:")
-        restore_model_label.setFixedWidth(80)
-        restore_model_layout.addWidget(restore_model_label)
+        restore_model_layout.addWidget(QLabel("Model:"))
         self.restore_model_combo = QComboBox()
         self.restore_model_combo.addItem("⚡ Spectral Restore (Fast)", "spectral")
         self.restore_model_combo.addItem("🎵 Enhanced Spectral (Medium)", "enhanced_spectral")
         self.restore_model_combo.addItem("🧠 Diffusion Inpaint (Best)", "diffusion_inpaint")
         self.restore_model_combo.addItem("🔊 AudioSR (Legacy)", "audiosr")
-        self.restore_model_combo.setCurrentIndex(1)  # Default to Enhanced Spectral
-        self.restore_model_combo.currentIndexChanged.connect(self._on_restore_model_changed)
+        self.restore_model_combo.setCurrentIndex(1)
         self.restore_model_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         restore_model_layout.addWidget(self.restore_model_combo)
         restore_layout.addLayout(restore_model_layout)
 
-
-        # --- MUSICGEN SETTINGS ---
-        self.musicgen_group = QGroupBox("🎹 MusicGen Settings")
-        mg_layout = QVBoxLayout(self.musicgen_group)
-        
-        # Model Selector
-        mg_model_layout = QHBoxLayout()
-        mg_model_layout.addWidget(QLabel("Model:"))
-        self.mg_model_combo = QComboBox()
-        self.mg_model_combo.addItem("Melody (Best Structure)", "melody")
-        self.mg_model_combo.addItem("Medium (Better Audio Quality)", "medium")
-        self.mg_model_combo.addItem("Large (Best Audio / Slow)", "large")
-        self.mg_model_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        mg_model_layout.addWidget(self.mg_model_combo)
-        mg_layout.addLayout(mg_model_layout)
-        
-        # Pre-process Checkbox
-        self.mg_preprocess_check = QCheckBox("⚡ Pre-separate Vocals (Recommended)")
-        self.mg_preprocess_check.setChecked(True)
-        mg_layout.addWidget(self.mg_preprocess_check)
-
-        # NEW: CREATIVITY SLIDER
-        temp_layout = QHBoxLayout()
-        temp_layout.addWidget(QLabel("Creativity:"))
-        
-        self.mg_temp_slider = QSlider(Qt.Horizontal)
-        self.mg_temp_slider.setRange(1, 15) # 0.1 to 1.5
-        self.mg_temp_slider.setValue(8)     # Default 0.8
-        self.mg_temp_slider.setToolTip("Lower = Stricter adherence to original. Higher = More improvised.")
-        temp_layout.addWidget(self.mg_temp_slider)
-        
-        self.mg_temp_label = QLabel("0.8")
-        self.mg_temp_label.setFixedWidth(30)
-        temp_layout.addWidget(self.mg_temp_label)
-        
-        # Connect label update
-        self.mg_temp_slider.valueChanged.connect(lambda v: self.mg_temp_label.setText(f"{v/10.0:.1f}"))
-        
-        mg_layout.addLayout(temp_layout)
-
-        # Prompt Input
-        mg_layout.addWidget(QLabel("Style Prompt:"))
-        self.mg_prompt_input = QTextEdit()
-        self.mg_prompt_input.setPlaceholderText("e.g. Acoustic guitar version, synthwave style...")
-        self.mg_prompt_input.setText("High quality instrumental song, no vocals")
-        self.mg_prompt_input.setMaximumHeight(60)
-        mg_layout.addWidget(self.mg_prompt_input)
-        
-        layout.addWidget(self.musicgen_group)
-
-
-
-        # Model info
-        self.restore_info_label = QLabel("🎵 Harmonic-aware restoration for medium damage")
+        self.restore_info_label = QLabel("🎵 Harmonic-aware restoration")
         self.restore_info_label.setStyleSheet("color: #666; font-size: 10px;")
         restore_layout.addWidget(self.restore_info_label)
 
-        # Preset buttons
-        preset_label = QLabel("Quality Preset:")
-        restore_layout.addWidget(preset_label)
-        
+        # Presets
         preset_layout = QHBoxLayout()
-        preset_layout.setSpacing(5)
         self.preset_group = QButtonGroup(self)
-        
-        presets = [
-            ("Ultra Fast", "ultra_fast", "⚡ ~2-5s per region"),
-            ("Fast", "fast", "🚀 ~5-15s per region"),
-            ("Balanced", "balanced", "⚖️ ~15-30s per region"),
-            ("Quality", "high_quality", "✨ ~30-60s per region"),
-        ]
-        
-        for text, preset_id, tooltip in presets:
+        for text, preset_id in [("Fast", "fast"), ("Balanced", "balanced"), ("Quality", "high_quality")]:
             btn = QPushButton(text)
             btn.setCheckable(True)
             btn.preset_id = preset_id
-            btn.setToolTip(tooltip)
-            btn.setStyleSheet("""
-                QPushButton { padding: 5px 10px; }
-                QPushButton:checked { background-color: #007bff; color: white; }
-            """)
+            btn.setStyleSheet("QPushButton { padding: 5px; } QPushButton:checked { background-color: #007bff; color: white; }")
             if preset_id == "balanced":
                 btn.setChecked(True)
             self.preset_group.addButton(btn)
             preset_layout.addWidget(btn)
-        
         restore_layout.addLayout(preset_layout)
 
-        # Sensitivity slider
+        # Sensitivity
         sens_layout = QHBoxLayout()
-        sens_label = QLabel("Sensitivity:")
-        sens_label.setFixedWidth(80)
-        sens_layout.addWidget(sens_label)
+        sens_layout.addWidget(QLabel("Sensitivity:"))
         self.sens_slider = QSlider(Qt.Horizontal)
         self.sens_slider.setRange(20, 80)
         self.sens_slider.setValue(50)
-        self.sens_slider.setToolTip("Lower = detect more damage, Higher = only severe damage")
         sens_layout.addWidget(self.sens_slider)
         self.sens_value = QLabel("0.50")
-        self.sens_value.setFixedWidth(35)
         sens_layout.addWidget(self.sens_value)
-        restore_layout.addLayout(sens_layout)
         self.sens_slider.valueChanged.connect(lambda v: self.sens_value.setText(f"{v/100:.2f}"))
+        restore_layout.addLayout(sens_layout)
 
         # Max regions
         regions_layout = QHBoxLayout()
-        regions_label = QLabel("Max regions:")
-        regions_label.setFixedWidth(80)
-        regions_layout.addWidget(regions_label)
+        regions_layout.addWidget(QLabel("Max regions:"))
         self.max_regions_spin = QSpinBox()
         self.max_regions_spin.setRange(1, 50)
         self.max_regions_spin.setValue(10)
-        self.max_regions_spin.setToolTip("Maximum number of damaged regions to restore")
-        self.max_regions_spin.setFixedWidth(60)
         regions_layout.addWidget(self.max_regions_spin)
         regions_layout.addStretch()
         restore_layout.addLayout(regions_layout)
 
         layout.addWidget(self.restore_group)
 
-        # Demucs Settings
+        # =================================================================
+        # MUSICGEN SETTINGS
+        # =================================================================
+        self.musicgen_group = QGroupBox("🎹 MusicGen Settings")
+        mg_layout = QVBoxLayout(self.musicgen_group)
+        
+        mg_model_layout = QHBoxLayout()
+        mg_model_layout.addWidget(QLabel("Model:"))
+        self.mg_model_combo = QComboBox()
+        self.mg_model_combo.addItem("Melody (Best Structure)", "melody")
+        self.mg_model_combo.addItem("Medium (Better Quality)", "medium")
+        self.mg_model_combo.addItem("Large (Best / Slow)", "large")
+        self.mg_model_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        mg_model_layout.addWidget(self.mg_model_combo)
+        mg_layout.addLayout(mg_model_layout)
+        
+        self.mg_preprocess_check = QCheckBox("⚡ Pre-separate Vocals")
+        self.mg_preprocess_check.setChecked(True)
+        mg_layout.addWidget(self.mg_preprocess_check)
+
+        temp_layout = QHBoxLayout()
+        temp_layout.addWidget(QLabel("Creativity:"))
+        self.mg_temp_slider = QSlider(Qt.Horizontal)
+        self.mg_temp_slider.setRange(1, 15)
+        self.mg_temp_slider.setValue(8)
+        temp_layout.addWidget(self.mg_temp_slider)
+        self.mg_temp_label = QLabel("0.8")
+        temp_layout.addWidget(self.mg_temp_label)
+        self.mg_temp_slider.valueChanged.connect(lambda v: self.mg_temp_label.setText(f"{v/10:.1f}"))
+        mg_layout.addLayout(temp_layout)
+
+        mg_layout.addWidget(QLabel("Style Prompt:"))
+        self.mg_prompt_input = QTextEdit()
+        self.mg_prompt_input.setPlaceholderText("e.g. Acoustic guitar version...")
+        self.mg_prompt_input.setText("High quality instrumental song")
+        self.mg_prompt_input.setMaximumHeight(50)
+        mg_layout.addWidget(self.mg_prompt_input)
+        
+        layout.addWidget(self.musicgen_group)
+
+        # =================================================================
+        # DEMUCS SETTINGS
+        # =================================================================
         self.demucs_group = QGroupBox("⚙️ Demucs Settings")
         demucs_layout = QVBoxLayout(self.demucs_group)
         demucs_layout.setSpacing(8)
         
-        demucs_model_layout = QHBoxLayout()
-        dm_label = QLabel("Model:")
-        dm_label.setFixedWidth(80)
-        demucs_model_layout.addWidget(dm_label)
+        # Model
+        dm_layout = QHBoxLayout()
+        dm_layout.addWidget(QLabel("Model:"))
         self.demucs_model_combo = QComboBox()
-        self.demucs_model_combo.addItem("HTDemucs 6s (Best)", "htdemucs_6s")
+        self.demucs_model_combo.addItem("HTDemucs (Best)", "htdemucs")
         self.demucs_model_combo.addItem("HTDemucs FT", "htdemucs_ft")
-        self.demucs_model_combo.addItem("HTDemucs", "htdemucs")
+        self.demucs_model_combo.addItem("HTDemucs 6s (Experimental)", "htdemucs_6s")
         self.demucs_model_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        demucs_model_layout.addWidget(self.demucs_model_combo)
-        demucs_layout.addLayout(demucs_model_layout)
+        dm_layout.addWidget(self.demucs_model_combo)
+        demucs_layout.addLayout(dm_layout)
         
+        # Preset note
+        self.demucs_preset_note = QLabel("💡 Shifts & Overlap controlled by Quality Preset")
+        self.demucs_preset_note.setStyleSheet("color: #007bff; font-size: 10px; font-style: italic;")
+        demucs_layout.addWidget(self.demucs_preset_note)
+        
+        # Shifts
         shifts_layout = QHBoxLayout()
-        shifts_label = QLabel("Shifts:")
-        shifts_label.setFixedWidth(80)
-        shifts_layout.addWidget(shifts_label)
+        shifts_layout.addWidget(QLabel("Shifts:"))
         self.shifts_spin = QSpinBox()
         self.shifts_spin.setRange(1, 10)
-        self.shifts_spin.setValue(5)
+        self.shifts_spin.setValue(2)
         self.shifts_spin.setFixedWidth(60)
         shifts_layout.addWidget(self.shifts_spin)
         shifts_layout.addStretch()
         demucs_layout.addLayout(shifts_layout)
         
+        # Overlap
+        overlap_layout = QHBoxLayout()
+        overlap_layout.addWidget(QLabel("Overlap:"))
+        self.overlap_spin = QSpinBox()
+        self.overlap_spin.setRange(10, 90)
+        self.overlap_spin.setValue(25)
+        self.overlap_spin.setSuffix("%")
+        self.overlap_spin.setFixedWidth(70)
+        overlap_layout.addWidget(self.overlap_spin)
+        overlap_layout.addStretch()
+        demucs_layout.addLayout(overlap_layout)
+        
+        # Float32
         self.float32_check = QCheckBox("Float32 Precision")
         self.float32_check.setChecked(True)
         demucs_layout.addWidget(self.float32_check)
         
         # Device
         device_layout = QHBoxLayout()
-        device_label = QLabel("Device:")
-        device_label.setFixedWidth(80)
-        device_layout.addWidget(device_label)
-        
+        device_layout.addWidget(QLabel("Device:"))
         self.device_combo = QComboBox()
-        cuda_available = torch.cuda.is_available()
-        
-        if cuda_available:
+        if torch.cuda.is_available():
             gpu_name = torch.cuda.get_device_name(0)
             self.device_combo.addItem(f"🚀 GPU ({gpu_name})", "cuda")
             self.device_combo.addItem("🐢 CPU", "cpu")
         else:
             self.device_combo.addItem("🐢 CPU", "cpu")
-        
         self.device_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         device_layout.addWidget(self.device_combo)
         demucs_layout.addLayout(device_layout)
         
-        if not cuda_available:
-            gpu_warning = QLabel("⚠️ No CUDA GPU detected - processing will be slow")
-            gpu_warning.setStyleSheet("color: orange;")
-            demucs_layout.addWidget(gpu_warning)
+        if not torch.cuda.is_available():
+            warn = QLabel("⚠️ No GPU - processing will be slow")
+            warn.setStyleSheet("color: orange;")
+            demucs_layout.addWidget(warn)
         
         layout.addWidget(self.demucs_group)
 
-        # Progress
+        # =================================================================
+        # PROGRESS
+        # =================================================================
         progress_group = QGroupBox("Progress")
         progress_layout = QVBoxLayout(progress_group)
         
@@ -2638,7 +1735,7 @@ class StemSeparatorApp(QMainWindow):
         
         self.progress_label = QLabel("")
         self.progress_label.setWordWrap(True)
-        self.progress_label.setMinimumHeight(40)
+        self.progress_label.setMinimumHeight(50)
         progress_layout.addWidget(self.progress_label)
         
         self.start_btn = QPushButton("🚀 Start")
@@ -2646,12 +1743,9 @@ class StemSeparatorApp(QMainWindow):
         self.start_btn.clicked.connect(self.start_separation)
         self.start_btn.setStyleSheet("""
             QPushButton { 
-                background-color: #28a745; 
-                color: white; 
-                font-weight: bold; 
-                padding: 12px; 
-                border-radius: 5px;
-                font-size: 14px;
+                background-color: #28a745; color: white; 
+                font-weight: bold; padding: 12px; 
+                border-radius: 5px; font-size: 14px;
             }
             QPushButton:hover { background-color: #218838; }
             QPushButton:disabled { background-color: #ccc; color: #666; }
@@ -2661,84 +1755,175 @@ class StemSeparatorApp(QMainWindow):
         layout.addWidget(progress_group)
         layout.addStretch()
         
-        # Initial UI state
+        # =================================================================
+        # CONNECT SIGNALS (after ALL widgets exist)
+        # =================================================================
+        for btn in self.mode_group.buttons():
+            btn.toggled.connect(self._on_mode_changed)
+        
+        self.honest_grouping_combo.currentIndexChanged.connect(self._on_honest_grouping_changed)
+        self.quality_preset_combo.currentIndexChanged.connect(self._on_quality_preset_changed)
+        self.freq_category_combo.currentIndexChanged.connect(self._on_freq_category_changed)
+        self.freq_preset_combo.currentIndexChanged.connect(self._on_freq_preset_changed)
+        
+        # =================================================================
+        # INITIALIZE STATE (after signals connected)
+        # =================================================================
+        self._populate_freq_presets()
+        self._on_quality_preset_changed()
+        self._on_honest_grouping_changed()
         self._on_mode_changed()
     
+    # =========================================================================
+    # HELPER METHODS
+    # =========================================================================
+    
     def _add_availability_warnings(self, layout):
-        """Add warnings for missing models."""
+        """Add warnings for unavailable features."""
         warnings = []
-        
         if not AVAILABLE_MODELS.get("audio_separator"):
-            warnings.append("audio-separator (UVR5/MDX)")
-        if not AVAILABLE_MODELS.get("diffusion_inpaint"):
-            warnings.append("diffusion-inpaint")
-        if not AVAILABLE_MODELS.get("audiosr"):
-            warnings.append("audiosr")
+            warnings.append("UVR")
+        if not AVAILABLE_MODELS.get("musicgen"):
+            warnings.append("MusicGen")
         
         if warnings:
-            warning_text = "⚠️ Missing: " + ", ".join(warnings)
-            warning_label = QLabel(warning_text)
-            warning_label.setStyleSheet(
+            label = QLabel(f"⚠️ Not installed: {', '.join(warnings)}")
+            label.setStyleSheet(
                 "color: #856404; background-color: #fff3cd; "
                 "padding: 8px; border-radius: 4px; font-size: 11px;"
             )
-            warning_label.setWordWrap(True)
-            layout.addWidget(warning_label)
+            layout.addWidget(label)
+    
+    def _populate_freq_presets(self):
+        """Populate frequency preset combo based on category."""
+        category = self.freq_category_combo.currentData()
+        self.freq_preset_combo.clear()
+        
+        if category == "genre":
+            for pid, p in FREQUENCY_PRESETS_GENRE.items():
+                self.freq_preset_combo.addItem(p["name"], pid)
+        elif category == "instrument":
+            for pid, p in FREQUENCY_PRESETS_INSTRUMENT.items():
+                self.freq_preset_combo.addItem(p["name"], pid)
+        elif category == "technical":
+            for pid, p in FREQUENCY_PRESETS_TECHNICAL.items():
+                self.freq_preset_combo.addItem(p["name"], pid)
+        else:  # custom
+            self.freq_preset_combo.addItem("Manual Settings", "custom")
+        
+        self._on_freq_preset_changed()
     
     def _on_mode_changed(self):
         """Update UI based on selected mode."""
         mode = self.get_mode()
         
-        # Existing visibility logic
-        show_restoration = (mode == "instrument_hq")
-        self.restore_group.setVisible(show_restoration)
-        
-        show_demucs = (mode == "full_stems")
-        self.demucs_group.setVisible(show_demucs or mode == "instrument_hq")
-        
-        # --- NEW: Hide/Show MusicGen Group ---
+        self.honest_group.setVisible(mode == "honest_stems")
+        self.sep_group.setVisible(mode in ["vocals_only", "instrument_hq"])
+        self.restore_group.setVisible(mode == "instrument_hq")
         self.musicgen_group.setVisible(mode == "musicgen_regen")
+        self.demucs_group.setVisible(mode in ["full_stems", "honest_stems"])
+    
+    def _on_honest_grouping_changed(self):
+        """Update grouping info and frequency settings visibility."""
+        grouping = self.honest_grouping_combo.currentData()
         
-        # Hide other groups if MusicGen is selected
-        if mode == "musicgen_regen":
-            self.restore_group.setVisible(False)
-            self.demucs_group.setVisible(False)
-            # Also hide UVR/Sep group if you have one defined as sep_group
-            if hasattr(self, 'sep_group'): self.sep_group.setVisible(False)
- 
-
-
- 
-    def _on_restore_model_changed(self, index):
-        """Update info label when restoration model changes."""
-        model = self.restore_model_combo.currentData()
-        
-        info_map = {
-            "spectral": "⚡ Fast basic interpolation for minor damage",
-            "enhanced_spectral": "🎵 Harmonic-aware restoration for medium damage",
-            "diffusion_inpaint": "🧠 AI diffusion inpainting - best quality, slower",
-            "audiosr": "🔊 Legacy upsampling - not recommended for holes",
+        info = {
+            "demucs_4": "Output: vocals, drums, bass, other",
+            "extended_6": "Output: vocals, drums, bass, other_low, other_mid, other_high",
+            "music_focus": "Output: vocals, rhythm, melody_low, melody_mid, melody_high",
         }
+        self.honest_grouping_info.setText(info.get(grouping, ""))
         
-        self.restore_info_label.setText(info_map.get(model, ""))
+        # Show frequency settings only when splitting "other"
+        show_freq = grouping in ["extended_6", "music_focus"]
+        self.freq_preset_group.setVisible(show_freq)
+    
+    def _on_quality_preset_changed(self):
+        """Update quality preset info and Demucs controls."""
+        preset_id = self.quality_preset_combo.currentData()
+        is_custom = (preset_id == "custom")
+        
+        # Update note visibility
+        self.demucs_preset_note.setVisible(not is_custom)
+        
+        # Enable/disable manual controls
+        self.shifts_spin.setEnabled(is_custom)
+        self.overlap_spin.setEnabled(is_custom)
+        
+        if is_custom:
+            self.quality_preset_info.setText("Using manual Shifts and Overlap settings below.")
+        elif preset_id in DEMUCS_QUALITY_PRESETS:
+            p = DEMUCS_QUALITY_PRESETS[preset_id]
+            self.quality_preset_info.setText(
+                f"{p['description']}\n"
+                f"Shifts: {p['shifts']} | Overlap: {p['overlap']:.0%} | {p['time_estimate']}"
+            )
+            # Update spinboxes to show values (disabled, just for display)
+            self.shifts_spin.setValue(p['shifts'])
+            self.overlap_spin.setValue(int(p['overlap'] * 100))
+    
+    def _on_freq_category_changed(self):
+        """Handle frequency category change."""
+        self._populate_freq_presets()
+        
+        category = self.freq_category_combo.currentData()
+        self.freq_manual_widget.setVisible(category == "custom")
+    
+    def _on_freq_preset_changed(self):
+        """Handle frequency preset change."""
+        preset_id = self.freq_preset_combo.currentData()
+        category = self.freq_category_combo.currentData()
+        
+        if category == "custom" or preset_id == "custom":
+            self.freq_preset_info.setText("Set crossover frequencies manually below.")
+            self.freq_manual_widget.setVisible(True)
+            return
+        
+        # Find and display preset info
+        preset = None
+        for d in [FREQUENCY_PRESETS_GENRE, FREQUENCY_PRESETS_TECHNICAL, FREQUENCY_PRESETS_INSTRUMENT]:
+            if preset_id in d:
+                preset = d[preset_id]
+                break
+        
+        if preset:
+            self.freq_preset_info.setText(
+                f"{preset['description']}\n{preset['details']}\n"
+                f"Low: <{preset['low_freq']}Hz | Mid: {preset['low_freq']}-{preset['high_freq']}Hz | High: >{preset['high_freq']}Hz"
+            )
+            self.honest_low_freq_spin.setValue(preset['low_freq'])
+            self.honest_high_freq_spin.setValue(preset['high_freq'])
+        
+        self.freq_manual_widget.setVisible(False)
     
     def get_mode(self):
         """Get currently selected mode."""
         for btn in self.mode_group.buttons():
             if btn.isChecked():
                 return btn.mode
-        return "instrument_hq"
+        return "honest_stems"
     
     def get_preset(self):
-        """Get currently selected quality preset."""
+        """Get restoration preset."""
         for btn in self.preset_group.buttons():
             if btn.isChecked():
                 return btn.preset_id
         return "balanced"
     
+    def get_quality_preset(self):
+        """Get quality preset or None for custom."""
+        pid = self.quality_preset_combo.currentData()
+        return None if pid == "custom" else pid
+    
+    def get_frequency_preset(self):
+        """Get frequency preset or None for custom."""
+        if self.freq_category_combo.currentData() == "custom":
+            return None
+        return self.freq_preset_combo.currentData()
+    
     @Slot(str)
     def handle_dropped_file(self, path):
-        """Handle file dropped onto drop zone."""
+        """Handle dropped file."""
         if os.path.exists(path):
             self.file_input.setText(path)
             self.start_btn.setEnabled(True)
@@ -2746,10 +1931,10 @@ class StemSeparatorApp(QMainWindow):
     
     @Slot()
     def browse_file(self):
-        """Open file browser dialog."""
+        """Browse for file."""
         path, _ = QFileDialog.getOpenFileName(
             self, "Select Audio", "",
-            "Audio Files (*.mp3 *.wav *.flac *.m4a *.ogg *.aac);;All Files (*.*)"
+            "Audio Files (*.mp3 *.wav *.flac *.m4a *.ogg *.aac);;All (*.*)"
         )
         if path:
             self.file_input.setText(path)
@@ -2758,7 +1943,7 @@ class StemSeparatorApp(QMainWindow):
     
     @Slot()
     def start_separation(self):
-        """Start the separation/restoration process."""
+        """Start processing."""
         path = self.file_input.text()
         if not path or not os.path.exists(path):
             QMessageBox.warning(self, "Error", "Please select a valid audio file.")
@@ -2766,107 +1951,108 @@ class StemSeparatorApp(QMainWindow):
         
         mode = self.get_mode()
         
-        if self.device_combo.currentData() == "cpu":
-            if mode == "instrument_hq" and self.restore_group.isChecked():
-                reply = QMessageBox.question(
-                    self, "CPU Warning",
-                    "AI restoration on CPU will be very slow.\n\n"
-                    "A CUDA GPU is strongly recommended.\n\n"
-                    "Continue anyway?",
-                    QMessageBox.Yes | QMessageBox.No
-                )
-                if reply == QMessageBox.No:
-                    return
+        # CPU warning
+        if self.device_combo.currentData() == "cpu" and mode in ["honest_stems", "full_stems"]:
+            reply = QMessageBox.question(
+                self, "CPU Warning",
+                "Processing on CPU will be slow.\nContinue?",
+                QMessageBox.Yes | QMessageBox.No
+            )
+            if reply == QMessageBox.No:
+                return
         
+        # Output directory
         base = os.path.dirname(path)
         name = os.path.splitext(os.path.basename(path))[0]
         
-        if mode == "instrument_hq" and self.restore_group.isChecked():
-            restore_model = self.restore_model_combo.currentData()
-            out_dir = os.path.join(base, f"{name}_instrumental_{restore_model}")
+        if mode == "honest_stems":
+            grouping = self.honest_grouping_combo.currentData()
+            out_dir = os.path.join(base, f"{name}_honest_{grouping}")
+        elif mode == "full_stems":
+            out_dir = os.path.join(base, f"{name}_demucs")
+        elif mode == "musicgen_regen":
+            out_dir = os.path.join(base, f"{name}_musicgen")
         else:
-            out_dir = os.path.join(base, f"{name}_{mode.replace('_', '-')}")
+            out_dir = os.path.join(base, f"{name}_{mode}")
         
         self.status_label.setText("Processing...")
         self.set_ui_enabled(False)
         self.progress_bar.show()
         self.progress_label.setText("Initializing...")
         
+        # Gather parameters
         self.worker_thread = ExtractionWorker(
             input_file=path,
             output_dir=out_dir,
             mode=mode,
             demucs_model=self.demucs_model_combo.currentData(),
             separation_model=self.sep_model_combo.currentData(),
-            separation_method="uvr_single", # or self.method_combo.currentData() if you kept it
-            enable_restoration=False, # logic simplified
-            restoration_model="spectral",
-            restoration_preset="balanced",
-            threshold=0.5,
-            max_regions=10,
-            shifts=2,
-            overlap=0.25,
-            use_float32=True,
+            separation_method=self.method_combo.currentData(),
+            enable_restoration=self.restore_group.isChecked() if mode == "instrument_hq" else False,
+            restoration_model=self.restore_model_combo.currentData(),
+            restoration_preset=self.get_preset(),
+            threshold=self.sens_slider.value() / 100.0,
+            max_regions=self.max_regions_spin.value(),
+            shifts=self.shifts_spin.value(),
+            overlap=self.overlap_spin.value() / 100.0,
+            use_float32=self.float32_check.isChecked(),
             device=self.device_combo.currentData(),
-            
-            # --- UPDATED PARAMS ---
+            # MusicGen
             musicgen_prompt=self.mg_prompt_input.toPlainText(),
             musicgen_model=self.mg_model_combo.currentData(),
             musicgen_preprocess=self.mg_preprocess_check.isChecked(),
-            musicgen_temp=self.mg_temp_slider.value() / 10.0 # Convert 8 -> 0.8
+            musicgen_temp=self.mg_temp_slider.value() / 10.0,
+            # Honest
+            stem_grouping=self.honest_grouping_combo.currentData(),
+            low_freq=self.honest_low_freq_spin.value(),
+            high_freq=self.honest_high_freq_spin.value(),
+            # Presets
+            quality_preset=self.get_quality_preset(),
+            frequency_preset=self.get_frequency_preset(),
         )
         
         self.worker_thread.finished.connect(self.on_finished)
         self.worker_thread.error.connect(self.on_error)
         self.worker_thread.progress.connect(self.on_progress)
-
+        
         try:
             self.worker_thread.start()
         except Exception as e:
-            import traceback
-            QMessageBox.critical(
-                self, "Startup Error", 
-                f"Failed to start processing:\n\n{traceback.format_exc()}"
-            )
+            QMessageBox.critical(self, "Error", str(e))
             self.set_ui_enabled(True)
             self.progress_bar.hide()
     
     def set_ui_enabled(self, enabled):
-        """Enable/disable UI elements during processing."""
-        widgets = [
-            self.browse_btn, 
-            self.demucs_model_combo, 
-            self.sep_model_combo,
-            self.method_combo, 
-            self.shifts_spin, 
-            self.float32_check,
-            self.restore_model_combo,
-            self.sens_slider,
-            self.max_regions_spin,
-            self.device_combo,
-            self.restore_group,
-        ]
-        
-        for w in widgets:
+        """Enable/disable UI during processing."""
+        for w in [
+            self.browse_btn, self.demucs_model_combo, self.sep_model_combo,
+            self.method_combo, self.shifts_spin, self.overlap_spin,
+            self.float32_check, self.restore_model_combo, self.sens_slider,
+            self.max_regions_spin, self.device_combo, self.restore_group,
+            self.honest_grouping_combo, self.quality_preset_combo,
+            self.freq_category_combo, self.freq_preset_combo,
+            self.honest_low_freq_spin, self.honest_high_freq_spin,
+            self.mg_model_combo, self.mg_preprocess_check,
+            self.mg_temp_slider, self.mg_prompt_input,
+        ]:
             w.setEnabled(enabled)
         
         for btn in self.mode_group.buttons():
             btn.setEnabled(enabled)
-        
         for btn in self.preset_group.buttons():
             btn.setEnabled(enabled)
         
         self.start_btn.setEnabled(enabled and bool(self.file_input.text()))
     
     @Slot(str)
-    def on_progress(self, message):
-        """Update progress label."""
-        self.progress_label.setText(message)
-        logger.info(f"Progress: {message}")
+    def on_progress(self, msg):
+        """Update progress."""
+        self.progress_label.setText(msg)
+        logger.info(f"Progress: {msg}")
     
     @Slot(str)
     def on_finished(self, out_dir):
-        """Handle successful completion."""
+        """Handle completion."""
         self.progress_bar.hide()
         self.progress_label.setText("")
         self.set_ui_enabled(True)
@@ -2875,14 +2061,11 @@ class StemSeparatorApp(QMainWindow):
         msg = QMessageBox(self)
         msg.setIcon(QMessageBox.Information)
         msg.setWindowTitle("Success")
-        msg.setText("Processing complete!")
-        msg.setInformativeText(f"Files saved to:\n{out_dir}")
-        
+        msg.setText(f"Files saved to:\n{out_dir}")
         msg.addButton("Open Folder", QMessageBox.ActionRole)
         msg.addButton(QMessageBox.Ok)
         
-        result = msg.exec()
-        
+        msg.exec()
         if msg.clickedButton().text() == "Open Folder":
             if sys.platform == 'win32':
                 os.startfile(out_dir)
@@ -2892,15 +2075,13 @@ class StemSeparatorApp(QMainWindow):
                 os.system(f'xdg-open "{out_dir}"')
     
     @Slot(str)
-    def on_error(self, msg):
-        """Handle error during processing."""
+    def on_error(self, error_msg):
+        """Handle error."""
         self.progress_bar.hide()
         self.progress_label.setText("")
         self.set_ui_enabled(True)
-        self.status_label.setText("❌ Error occurred")
-        
-        QMessageBox.critical(self, "Error", msg)
-
+        self.status_label.setText("❌ Error")
+        QMessageBox.critical(self, "Error", error_msg)
 
 
 def main():
